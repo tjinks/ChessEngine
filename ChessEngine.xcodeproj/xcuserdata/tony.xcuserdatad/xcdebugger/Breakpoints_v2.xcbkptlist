@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "71EECFD8-31D7-434C-AD32-55A60019E0E7"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "537668E1-38C8-4241-9884-5B906E9673C7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BoardGeometry.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "kingMovesFrom(square)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/BoardGeometryTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "-testDirections"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "7820">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "7880">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "9012">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "9544">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "9612">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "9772">
+               </Location>
+               <Location
+                  uuid = "D7854F8D-6169-4BF0-8242-65155C65BB0E - dd3560f80c553819"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BoardGeometryTests testDirections]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/BoardGeometryTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "9940">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

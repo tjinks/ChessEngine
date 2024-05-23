@@ -6,8 +6,62 @@
 	objectVersion = 56;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EA5D54F02BFCE3F200F1BFB8 /* Piece.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D54E62BFCE3F100F1BFB8 /* Piece.h */; };
+		EA5D54F12BFCE3F200F1BFB8 /* Position.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D54E72BFCE3F100F1BFB8 /* Position.c */; };
+		EA5D54F22BFCE3F200F1BFB8 /* Position.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D54E82BFCE3F200F1BFB8 /* Position.h */; };
+		EA5D54F32BFCE3F200F1BFB8 /* Move.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D54E92BFCE3F200F1BFB8 /* Move.c */; };
+		EA5D54F42BFCE3F200F1BFB8 /* Move.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D54EA2BFCE3F200F1BFB8 /* Move.h */; };
+		EA5D54F52BFCE3F200F1BFB8 /* MoveGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D54EB2BFCE3F200F1BFB8 /* MoveGenerator.h */; };
+		EA5D54F62BFCE3F200F1BFB8 /* EngCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D54EC2BFCE3F200F1BFB8 /* EngCommon.c */; };
+		EA5D54F72BFCE3F200F1BFB8 /* MoveGenerator.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D54ED2BFCE3F200F1BFB8 /* MoveGenerator.c */; };
+		EA5D54F82BFCE3F200F1BFB8 /* EngCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D54EE2BFCE3F200F1BFB8 /* EngCommon.h */; };
+		EA5D54F92BFCE3F200F1BFB8 /* Piece.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D54EF2BFCE3F200F1BFB8 /* Piece.c */; };
+		EA5D55022BFCE93900F1BFB8 /* libChessEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5D54D72BFCE26900F1BFB8 /* libChessEngine.a */; };
+		EA5D55092BFCE9C800F1BFB8 /* PieceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55082BFCE9C800F1BFB8 /* PieceTests.m */; };
+		EA5D552A2BFD0F5C00F1BFB8 /* Public.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55292BFD0F5C00F1BFB8 /* Public.c */; };
+		EA5D552E2BFF241B00F1BFB8 /* BoardGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D552C2BFF241B00F1BFB8 /* BoardGeometry.h */; };
+		EA5D552F2BFF241B00F1BFB8 /* BoardGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D552D2BFF241B00F1BFB8 /* BoardGeometry.c */; };
+		EA5D55312BFF368100F1BFB8 /* BoardGeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55302BFF368100F1BFB8 /* BoardGeometryTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EA5D55032BFCE93900F1BFB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA5D54CF2BFCE26900F1BFB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA5D54D62BFCE26900F1BFB8;
+			remoteInfo = ChessEngine;
+		};
+		EA5D55222BFD037400F1BFB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA5D551E2BFD037400F1BFB8 /* CeClientTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA5D55142BFD037400F1BFB8;
+			remoteInfo = CeClientTest;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		EA5D54D72BFCE26900F1BFB8 /* libChessEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libChessEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5D54E62BFCE3F100F1BFB8 /* Piece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Piece.h; sourceTree = "<group>"; };
+		EA5D54E72BFCE3F100F1BFB8 /* Position.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Position.c; sourceTree = "<group>"; };
+		EA5D54E82BFCE3F200F1BFB8 /* Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Position.h; sourceTree = "<group>"; };
+		EA5D54E92BFCE3F200F1BFB8 /* Move.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Move.c; sourceTree = "<group>"; };
+		EA5D54EA2BFCE3F200F1BFB8 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
+		EA5D54EB2BFCE3F200F1BFB8 /* MoveGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveGenerator.h; sourceTree = "<group>"; };
+		EA5D54EC2BFCE3F200F1BFB8 /* EngCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EngCommon.c; sourceTree = "<group>"; };
+		EA5D54ED2BFCE3F200F1BFB8 /* MoveGenerator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MoveGenerator.c; sourceTree = "<group>"; };
+		EA5D54EE2BFCE3F200F1BFB8 /* EngCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngCommon.h; sourceTree = "<group>"; };
+		EA5D54EF2BFCE3F200F1BFB8 /* Piece.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Piece.c; sourceTree = "<group>"; };
+		EA5D54FE2BFCE93900F1BFB8 /* ChessEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5D55082BFCE9C800F1BFB8 /* PieceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieceTests.m; sourceTree = "<group>"; };
+		EA5D550A2BFD000300F1BFB8 /* Public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
+		EA5D551E2BFD037400F1BFB8 /* CeClientTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CeClientTest.xcodeproj; path = ../CeClientTest/CeClientTest.xcodeproj; sourceTree = "<group>"; };
+		EA5D55292BFD0F5C00F1BFB8 /* Public.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Public.c; sourceTree = "<group>"; };
+		EA5D552C2BFF241B00F1BFB8 /* BoardGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardGeometry.h; sourceTree = "<group>"; };
+		EA5D552D2BFF241B00F1BFB8 /* BoardGeometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BoardGeometry.c; sourceTree = "<group>"; };
+		EA5D55302BFF368100F1BFB8 /* BoardGeometryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoardGeometryTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -18,12 +72,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA5D54FB2BFCE93900F1BFB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5D55022BFCE93900F1BFB8 /* libChessEngine.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		EA5D54CE2BFCE26900F1BFB8 = {
 			isa = PBXGroup;
 			children = (
+				EA5D552C2BFF241B00F1BFB8 /* BoardGeometry.h */,
+				EA5D552D2BFF241B00F1BFB8 /* BoardGeometry.c */,
+				EA5D55292BFD0F5C00F1BFB8 /* Public.c */,
+				EA5D550A2BFD000300F1BFB8 /* Public.h */,
+				EA5D54EC2BFCE3F200F1BFB8 /* EngCommon.c */,
+				EA5D54EE2BFCE3F200F1BFB8 /* EngCommon.h */,
+				EA5D54E92BFCE3F200F1BFB8 /* Move.c */,
+				EA5D54EA2BFCE3F200F1BFB8 /* Move.h */,
+				EA5D54ED2BFCE3F200F1BFB8 /* MoveGenerator.c */,
+				EA5D54EB2BFCE3F200F1BFB8 /* MoveGenerator.h */,
+				EA5D54EF2BFCE3F200F1BFB8 /* Piece.c */,
+				EA5D54E62BFCE3F100F1BFB8 /* Piece.h */,
+				EA5D54E72BFCE3F100F1BFB8 /* Position.c */,
+				EA5D54E82BFCE3F200F1BFB8 /* Position.h */,
+				EA5D551E2BFD037400F1BFB8 /* CeClientTest.xcodeproj */,
+				EA5D54FF2BFCE93900F1BFB8 /* ChessEngineTests */,
 				EA5D54D82BFCE26900F1BFB8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -32,6 +110,24 @@
 			isa = PBXGroup;
 			children = (
 				EA5D54D72BFCE26900F1BFB8 /* libChessEngine.a */,
+				EA5D54FE2BFCE93900F1BFB8 /* ChessEngineTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5D54FF2BFCE93900F1BFB8 /* ChessEngineTests */ = {
+			isa = PBXGroup;
+			children = (
+				EA5D55082BFCE9C800F1BFB8 /* PieceTests.m */,
+				EA5D55302BFF368100F1BFB8 /* BoardGeometryTests.m */,
+			);
+			path = ChessEngineTests;
+			sourceTree = "<group>";
+		};
+		EA5D551F2BFD037400F1BFB8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA5D55232BFD037400F1BFB8 /* CeClientTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -43,6 +139,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5D54F52BFCE3F200F1BFB8 /* MoveGenerator.h in Headers */,
+				EA5D54F42BFCE3F200F1BFB8 /* Move.h in Headers */,
+				EA5D54F22BFCE3F200F1BFB8 /* Position.h in Headers */,
+				EA5D552E2BFF241B00F1BFB8 /* BoardGeometry.h in Headers */,
+				EA5D54F02BFCE3F200F1BFB8 /* Piece.h in Headers */,
+				EA5D54F82BFCE3F200F1BFB8 /* EngCommon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +168,24 @@
 			productReference = EA5D54D72BFCE26900F1BFB8 /* libChessEngine.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		EA5D54FD2BFCE93900F1BFB8 /* ChessEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5D55052BFCE93900F1BFB8 /* Build configuration list for PBXNativeTarget "ChessEngineTests" */;
+			buildPhases = (
+				EA5D54FA2BFCE93900F1BFB8 /* Sources */,
+				EA5D54FB2BFCE93900F1BFB8 /* Frameworks */,
+				EA5D54FC2BFCE93900F1BFB8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA5D55042BFCE93900F1BFB8 /* PBXTargetDependency */,
+			);
+			name = ChessEngineTests;
+			productName = ChessEngineTests;
+			productReference = EA5D54FE2BFCE93900F1BFB8 /* ChessEngineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -76,6 +196,9 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					EA5D54D62BFCE26900F1BFB8 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					EA5D54FD2BFCE93900F1BFB8 = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
@@ -91,22 +214,73 @@
 			mainGroup = EA5D54CE2BFCE26900F1BFB8;
 			productRefGroup = EA5D54D82BFCE26900F1BFB8 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EA5D551F2BFD037400F1BFB8 /* Products */;
+					ProjectRef = EA5D551E2BFD037400F1BFB8 /* CeClientTest.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				EA5D54D62BFCE26900F1BFB8 /* ChessEngine */,
+				EA5D54FD2BFCE93900F1BFB8 /* ChessEngineTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		EA5D55232BFD037400F1BFB8 /* CeClientTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CeClientTest;
+			remoteRef = EA5D55222BFD037400F1BFB8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA5D54FC2BFCE93900F1BFB8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EA5D54D42BFCE26900F1BFB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5D552A2BFD0F5C00F1BFB8 /* Public.c in Sources */,
+				EA5D54F12BFCE3F200F1BFB8 /* Position.c in Sources */,
+				EA5D552F2BFF241B00F1BFB8 /* BoardGeometry.c in Sources */,
+				EA5D54F32BFCE3F200F1BFB8 /* Move.c in Sources */,
+				EA5D54F62BFCE3F200F1BFB8 /* EngCommon.c in Sources */,
+				EA5D54F72BFCE3F200F1BFB8 /* MoveGenerator.c in Sources */,
+				EA5D54F92BFCE3F200F1BFB8 /* Piece.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5D54FA2BFCE93900F1BFB8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5D55092BFCE9C800F1BFB8 /* PieceTests.m in Sources */,
+				EA5D55312BFF368100F1BFB8 /* BoardGeometryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EA5D55042BFCE93900F1BFB8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA5D54D62BFCE26900F1BFB8 /* ChessEngine */;
+			targetProxy = EA5D55032BFCE93900F1BFB8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		EA5D54D92BFCE26900F1BFB8 /* Debug */ = {
@@ -246,6 +420,36 @@
 			};
 			name = Release;
 		};
+		EA5D55062BFCE93900F1BFB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4252B3HDL2;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = ../../ChessEngine;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.cleopatra.ChessEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Debug;
+		};
+		EA5D55072BFCE93900F1BFB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4252B3HDL2;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = ../../ChessEngine;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.cleopatra.ChessEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -263,6 +467,15 @@
 			buildConfigurations = (
 				EA5D54DC2BFCE26900F1BFB8 /* Debug */,
 				EA5D54DD2BFCE26900F1BFB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5D55052BFCE93900F1BFB8 /* Build configuration list for PBXNativeTarget "ChessEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5D55062BFCE93900F1BFB8 /* Debug */,
+				EA5D55072BFCE93900F1BFB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
