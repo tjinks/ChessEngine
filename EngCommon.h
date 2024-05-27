@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef uint_least64_t SquareMask;
+
 void *getMem(size_t required);
 
 void freeMem(void *p);

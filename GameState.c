@@ -6,24 +6,37 @@
 //
 
 #include <stdio.h>
-#include "Position.h"
+#include "GameState.h"
 #include "Piece.h"
 #include "Move.h"
 #include "EngCommon.h"
+#include "BoardGeometry.h"
 
 static GameState *gsFreeList = NULL;
 
-static GameState *getGameState(void) {
+GameState *acquireGameState(void) {
+    GameState *result;
     if (gsFreeList) {
-        GameState *result = gsFreeList;
+        result = gsFreeList;
         gsFreeList = gsFreeList->prev;
-        return result;
     } else {
-        return getMem(sizeof(GameState));
+        result = getMem(sizeof(GameState));
     }
+
+    result->activeMoves = acquireMoveList();
+    result->passiveMoves = acquireMoveList();
+    return result;
 }
 
-static void releaseGameState(GameState *gs) {
+GameState *retractMove(GameState *gs) {
+    GameState *result = gs->prev;
+    releaseGameState(gs);
+    return result;
+}
+
+void releaseGameState(GameState *gs) {
+    releaseMoveList(gs->activeMoves);
+    releaseMoveList(gs->passiveMoves);
     gs->prev = gsFreeList;
     gsFreeList = gs;
 }
@@ -64,8 +77,8 @@ static void updatePosition(Position *position, Move move) {
     position->epSquare = move.epSquare;
 }
 
-struct GameState *makeMove(const GameState *initialState, Move move) {
-    GameState *result = getGameState();
+GameState *makeMove(const GameState *initialState, Move move) {
+    GameState *result = acquireGameState();
     *result = *initialState;
     updatePosition(&result->position, move);
     

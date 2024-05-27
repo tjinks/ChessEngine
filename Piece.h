@@ -8,37 +8,11 @@
 #ifndef Piece_h
 #define Piece_h
 
-typedef enum {
-    Pawn = 0
-    ,Knight
-    ,Bishop
-    ,Rook
-    ,Queen
-    ,King
-    ,NoPieceType
-} PieceType;
+#include "Public.h"
 
-typedef enum {
-    White = 0,
-    Black,
-    NoPlayer
-} Player;
-
-typedef enum {
-    WhitePawn = Pawn
-    ,WhiteKnight
-    ,WhiteBishop
-    ,WhiteRook
-    ,WhiteQueen
-    ,WhiteKing
-    ,BlackPawn = WhitePawn + 16
-    ,BlackKnight
-    ,BlackBishop
-    ,BlackRook
-    ,BlackQueen
-    ,BlackKing
-    ,NoPiece = NoPlayer * 16 + NoPieceType
-} Piece;
+typedef EngPlayer Player;
+typedef EngPiece Piece;
+typedef EngPieceType PieceType;
 
 inline Piece makePiece(Player owner, PieceType type) {
     return owner * 16 + type;

@@ -27,6 +27,8 @@ typedef struct {
     int squares[8];
 } SquareList;
 
+typedef int (*Direction)(int);
+
 inline int rank(int square) {
     return square / 8;
 }

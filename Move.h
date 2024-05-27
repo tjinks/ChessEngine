@@ -17,10 +17,10 @@ typedef struct {
 
 typedef struct {
     int atomCount;
-    MoveAtom atoms[4];
     int epSquare;
-    int promoteTo;
+    Piece promoteTo;
     double score;
+    MoveAtom atoms[4];
 } Move;
 
 #endif /* EngMove_h */

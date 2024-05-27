@@ -9,11 +9,14 @@
 #define EngMoveGenerator_h
 
 #include "Move.h"
+#include "GameState.h"
+#include "MoveList.h"
 
-typedef struct MoveList {
-    struct MoveList *next;
-    int size, capacity;
-    Move moves[1];
-} MoveList;
+MoveList *generateMoves(const Position *position, Player player);
+
+void addNonCastlingMoves(const Position *position, MoveList *moveList, Player player);
+
+void addCastlingMoves(const Position *position, MoveList *moveList, Player player, const MoveList *opponentMoves);
+
 
 #endif /* EngMoveGenerator_h */

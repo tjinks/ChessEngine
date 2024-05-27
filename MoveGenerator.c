@@ -8,90 +8,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include "MoveGenerator.h"
+#include "MoveList.h"
+#include "BoardGeometry.h"
 #include "EngCommon.h"
-#include "Position.h"
+#include "GameState.h"
 #include "Piece.h"
-
-static const size_t MovesOffset =  offsetof(MoveList, moves);
-static const size_t MoveSize = sizeof(Move);
-static const size_t InitialMoveListSize = 16;
-
-static const int North = 8;
-static const int South = -8;
-static const int East = 1;
-static const int West = -1;
-static const int Ne = 9;
-static const int Nw = 7;
-static const int Se = -7;
-static const int Sw = -9;
+#include "BoardGeometry.h"
 
 typedef struct {
     const Position *position;
     MoveList *moveList;
     Player player;
-    int pawnMoveDirection;
-    int pawnCaptureDirectionWest;
-    int pawnCaptureDirectionEast;
+    Direction pawnMoveDirection;
+    Direction pawnCaptureDirections[2];
     int secondRank;
     int seventhRank;
 } MoveGenerator;
-
-static MoveList *mlFreeList = NULL;
-
-static inline int rank(int square) {
-    return square / 8;
-}
-
-static inline int file(int square) {
-    return square % 8;;
-}
-
-static MoveList *createMoveList(void) {
-    size_t required = MovesOffset + InitialMoveListSize * MoveSize;
-    MoveList *result = getMem(required);
-    result->capacity = InitialMoveListSize;
-    result->size = 0;
-    result->next = NULL;
-    return result;
-}
-
-static MoveList *getMoveList(void) {
-    if (mlFreeList) {
-        MoveList *result = mlFreeList;
-        mlFreeList = mlFreeList->next;
-        result->size = 0;
-        return result;
-    } else {
-        return createMoveList();
-    }
-}
-
-static MoveList *expand(MoveList *moveList) {
-    int newCapacity = 2 * moveList->capacity;
-    MoveList *result = getMem(MovesOffset + newCapacity * MoveSize);
-    memcpy(result, moveList, MovesOffset + moveList->size * MoveSize);
-    freeMem(moveList);
-    result->capacity = newCapacity;
-    return result;
-}
-
-inline static MoveList *addMove(MoveList *moveList, Move move) {
-    MoveList *result;
-    if (moveList->capacity == moveList->size) {
-        result = expand(moveList);
-    } else {
-        result = moveList;
-    }
-    
-    moveList->moves[moveList->size] = move;
-    moveList->size++;
-    return moveList;
-}
-
-static void freeMoveList(MoveList *moveList) {
-    moveList->next = mlFreeList;
-    mlFreeList = moveList;
-}
 
 static Move createSimpleMove(const Position *position, int from, int to) {
     Move result;
@@ -100,19 +32,13 @@ static Move createSimpleMove(const Position *position, int from, int to) {
     result.atoms[1].newContents = position->board[from];
     result.atoms[0].square = from;
     result.atoms[0].newContents = NoPiece;
-    result.promoteTo = -1;
-    result.epSquare = -1;
+    result.promoteTo = NoPiece;
+    result.epSquare = NoSquare;
     return result;
 }
 
 static void addSimpleMove(MoveGenerator *generator, int from, int to) {
-    Move move;
-    move.atomCount = 2;
-    move.atoms[1].square = to;
-    move.atoms[1].newContents = generator->position->board[from];
-    move.atoms[0].square = from;
-    move.atoms[0].newContents = NoPiece;
-    generator->moveList = addMove(generator->moveList, move);
+    generator->moveList = addMove(generator->moveList, createSimpleMove(generator->position, from, to));
 }
 
 static void addPromotionMoves(MoveGenerator *generator, int from, int to) {
@@ -128,65 +54,76 @@ static void addPromotionMoves(MoveGenerator *generator, int from, int to) {
 
 static void addDoublePawnMove(MoveGenerator *generator, int from, int to) {
     Move move = createSimpleMove(generator->position, from, to);
-    move.epSquare = from + generator->pawnMoveDirection;
+    move.epSquare = generator->pawnMoveDirection(from);
     generator->moveList = addMove(generator->moveList, move);
 }
 
-static void tryAddSimpleMove(MoveGenerator *generator, int from, int to) {
-    int targetPiece = generator->position->board[to];
-    if (getOwner(targetPiece) != generator->player) {
+static bool tryAddSimpleMove(MoveGenerator *generator, int from, int to) {
+    Piece piece = generator->position->board[to];
+    Player owner = getOwner(piece);
+    if (owner == NoPlayer) {
         addSimpleMove(generator, from, to);
-    }
-}
-
-static void addSlidingMoves(MoveGenerator *generator, int from, int direction) {
-    int current = from;
-    for (;;) {
-        switch (direction) {
-            case North:
-                if (rank(current) == 7) return;
-            case South:
-                if (rank(current) == 0) return;
-            case East:
-                if (file(current) == 7) return;
-            case West:
-                if (file(current) == 0) return;
-            case Ne:
-                if (rank(current) == 7 || file(current) == 7) return;
-            case Nw:
-                if (rank(current) == 7 || file(current) == 0) return;
-            case Se:
-                if (rank(current) == 0 || file(current) == 7) return;
-            case Sw:
-                if (rank(current) == 0 || file(current) == 0) return;
-        }
-        
-        current += direction;
-        Piece piece = generator->position->board[current];
-        Player owner = getOwner(piece);
-        if (owner == generator->player) {
-            return;
-        }
-        
-        addSimpleMove(generator, from, current);
-        if (owner != NoPlayer) {
-            return;
-        }
+        return true;
+    } else if (owner == getOpponent(generator->player)) {
+        addSimpleMove(generator, from, to);
+        return false;
+    } else {
+        return false;
     }
 }
 
 static void addRookMoves(MoveGenerator *generator, int from) {
-    addSlidingMoves(generator, from, North);
-    addSlidingMoves(generator, from, South);
-    addSlidingMoves(generator, from, East);
-    addSlidingMoves(generator, from, West);
+    int to;
+    to = north(from);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = north(to);
+    }
+    
+    to = south(from);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = south(to);
+    }
+
+    to = east(to);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = east(to);
+    }
+
+    to = west(to);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = west(to);
+    }
 }
 
 static void addBishopMoves(MoveGenerator *generator, int from) {
-    addSlidingMoves(generator, from, Ne);
-    addSlidingMoves(generator, from, Nw);
-    addSlidingMoves(generator, from, Se);
-    addSlidingMoves(generator, from, Sw);
+    int to;
+    to = nw(from);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = nw(to);
+    }
+    
+    to = ne(from);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = ne(to);
+    }
+
+    to = sw(to);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = sw(to);
+    }
+
+    to = se(to);
+    while (to != NoSquare) {
+        if (!tryAddSimpleMove(generator, from, to)) break;
+        to = se(to);
+    }
 }
 
 static void addQueenMoves(MoveGenerator *generator, int from) {
@@ -194,53 +131,26 @@ static void addQueenMoves(MoveGenerator *generator, int from) {
     addRookMoves(generator, from);
 }
 
-static void tryAddCastlingMoves(MoveGenerator *generator) {
-    const Position *position = generator->position;
-    if (position->castlingFlags) {
-        int kingSquare = position->kingSquare[generator->player];
+inline static int initialKingSquare(Player player) {
+    switch (player) {
+        case White: return e1;
+        case Black: return e8;
+        default: return NoSquare;
     }
 }
 
 static void addKingMoves(MoveGenerator *generator, int from) {
-    const static int directions[] = {North, South, East, West, Ne, Nw, Se, Sw};
-    int r = rank(from);
-    int f = file(from);
-    for (int i = 0; i < 8; i++) {
-        int direction = directions[i];
-        switch (direction) {
-            case North:
-                if (r == 7) continue;
-            case South:
-                if (r == 0) continue;
-            case East:
-                if (f == 7) continue;
-            case West:
-                if (f == 0) continue;
-            case Ne:
-                if (r == 7 || f == 7) continue;
-            case Nw:
-                if (r == 7 || f == 0) continue;
-            case Se:
-                if (r == 0 || f == 7) continue;
-            case Sw:
-                if (r == 0 || f == 0) continue;
-        }
-        
-        tryAddSimpleMove(generator, from, from + direction);
+    SquareList targets = kingMovesFrom(from);
+    for (int i = 0; i < targets.count; i++) {
+        tryAddSimpleMove(generator, from, targets.squares[i]);
     }
 }
 
 static void addKnightMoves(MoveGenerator *generator, int from) {
-    int r = rank(from);
-    int f = file(from);
-    if (r < 6 && f < 7) tryAddSimpleMove(generator, from, from + North + Ne);
-    if (r < 7 && f < 6) tryAddSimpleMove(generator, from, from + East + Ne);
-    if (r > 0 && f < 6) tryAddSimpleMove(generator, from, from + East + Se);
-    if (r > 1 && f < 7) tryAddSimpleMove(generator, from, from + South + Se);
-    if (r > 1 && f > 0) tryAddSimpleMove(generator, from, from + South + Sw);
-    if (r > 0 && f > 1) tryAddSimpleMove(generator, from, from + West + Sw);
-    if (r < 7 && f > 1) tryAddSimpleMove(generator, from, from + West + Nw);
-    if (r < 6 && f > 0) tryAddSimpleMove(generator, from, from + North + Nw);
+    SquareList targets = knightMovesFrom(from);
+    for (int i = 0; i < targets.count; i++) {
+        tryAddSimpleMove(generator, from, targets.squares[i]);
+    }
 }
 
 static void addSinglePawnMove(MoveGenerator *generator, int from, int to) {
@@ -254,8 +164,8 @@ static void addSinglePawnMove(MoveGenerator *generator, int from, int to) {
     }
 }
 
-static void tryAddPawnCapture(MoveGenerator *generator, int from, int direction) {
-    int to = from + direction;
+static void tryAddPawnCapture(MoveGenerator *generator, int from, Direction direction) {
+    int to = direction(from);
     const Position *position = generator->position;
     if (to == position->epSquare || getOwner(position->board[to]) == getOpponent(generator->player)) {
         addSimpleMove(generator, from, to);
@@ -268,13 +178,13 @@ static void addPawnMoves(MoveGenerator *generator, int from) {
     const Position *position = generator->position;
     
     // Is single move advance possible?
-    int to = from + generator->pawnMoveDirection;
+    int to = generator->pawnMoveDirection(from);
     if (position->board[to] == NoPiece) {
         addSinglePawnMove(generator, from, to);
         
         // How about double move?
         if (r == generator->secondRank) {
-            to += generator->pawnMoveDirection;
+            to = generator->pawnMoveDirection(to);
             if (position->board[to] == NoPiece) {
                 addSinglePawnMove(generator, from, to);
             }
@@ -282,31 +192,25 @@ static void addPawnMoves(MoveGenerator *generator, int from) {
     }
     
     // Now look for captures
-    if (f > 0) {
-        tryAddPawnCapture(generator, from, generator->pawnCaptureDirectionWest);
-    }
-    
-    if (f < 7) {
-        tryAddPawnCapture(generator, from, generator->pawnCaptureDirectionEast);
-    }
+    to = generator->pawnCaptureDirections[0](from);
+    tryAddPawnCapture(generator, from, generator->pawnCaptureDirections[0]);
+    tryAddPawnCapture(generator, from, generator->pawnCaptureDirections[1]);
 }
-
-static void initMoveGenerator(MoveGenerator *generator, const Position *position, Player player);
 
 static void initMoveGenerator(MoveGenerator *generator, const Position *position, Player player) {
     generator->position = position;
-    generator->moveList = getMoveList();
+    generator->moveList = acquireMoveList();
     generator->player = player;
     if (player == White) {
-        generator->pawnMoveDirection = North;
-        generator->pawnCaptureDirectionEast = Ne;
-        generator->pawnCaptureDirectionWest = Nw;
+        generator->pawnMoveDirection = north;
+        generator->pawnCaptureDirections[0] = ne;
+        generator->pawnCaptureDirections[1] = nw;
         generator->secondRank = 1;
         generator->seventhRank = 6;
     } else {
-        generator->pawnMoveDirection = South;
-        generator->pawnCaptureDirectionEast = Se;
-        generator->pawnCaptureDirectionWest = Sw;
+        generator->pawnMoveDirection = south;
+        generator->pawnCaptureDirections[0] = se;
+        generator->pawnCaptureDirections[1] = sw;
         generator->secondRank = 6;
         generator->seventhRank = 1;
     }
@@ -315,23 +219,6 @@ static void initMoveGenerator(MoveGenerator *generator, const Position *position
 MoveList *generateMoves(const Position *position, Player player) {
     MoveGenerator generator;
     initMoveGenerator(&generator, position, player);
-    generator.position = position;
-    generator.moveList = getMoveList();
-    generator.player = player;
-    if (player == White) {
-        generator.pawnMoveDirection = North;
-        generator.pawnCaptureDirectionEast = Ne;
-        generator.pawnCaptureDirectionWest = Nw;
-        generator.secondRank = 1;
-        generator.seventhRank = 6;
-    } else {
-        generator.pawnMoveDirection = South;
-        generator.pawnCaptureDirectionEast = Se;
-        generator.pawnCaptureDirectionWest = Sw;
-        generator.secondRank = 6;
-        generator.seventhRank = 1;
-    }
-    
     for (int i = 0; i < 64; i++) {
         PieceType type = getPieceType(position->board[i]);
         switch (type) {
@@ -360,3 +247,79 @@ MoveList *generateMoves(const Position *position, Player player) {
     
     return generator.moveList;
 }
+
+void addNonCastlingMoves(const Position *position, MoveList *moveList, Player player);
+
+static const SquareMask whiteShortCastlingMask = (SquareMask)1 << e1 | (SquareMask)1 << f1 | (SquareMask)1 << g1;
+static const SquareMask whiteLongCastlingMask = (SquareMask)1 << e1 | (SquareMask)1 << d1 | (SquareMask)1 << c1;
+static const SquareMask blackShortCastlingMask = (SquareMask)1 << e8 | (SquareMask)1 << f8 | (SquareMask)1 << g8;
+static const SquareMask blackLongCastlingMask = (SquareMask)1 << e8 | (SquareMask)1 << d8 | (SquareMask)1 << c8;
+
+static void tryAddCastlingMove(const Position *position, MoveList *moveList, int player, int direction, const MoveList *opponentMoves) {
+    int kingSquare;
+    Piece king, rook;
+    if (player == White) {
+        if ((position->castlingFlags && WhiteLong) == 0 && direction == -1) return;
+        if ((position->castlingFlags && WhiteShort) == 0 && direction == 1) return;
+        kingSquare = e1;
+        king = WhiteKing;
+        rook = WhiteRook;
+    } else {
+        if ((position->castlingFlags && BlackLong) == 0 && direction == -1) return;
+        if ((position->castlingFlags && BlackShort) == 0 && direction == 1) return;
+        kingSquare = e8;
+        king = BlackKing;
+        rook = BlackRook;
+    }
+
+    SquareMask mask = 0;
+    int rookSquare = NoSquare;
+    int i = 0;
+    for (int i = 0; rookSquare == NoSquare; i++) {
+        int square = kingSquare + direction * i;
+        if (i <= 2) {
+            mask |= (SquareMask)1 << square;
+        }
+        
+        switch (square) {
+            case e1:
+            case e8:
+                if (position->board[square] != king) return;
+                break;
+            case a1:
+            case a8:
+            case h1:
+            case h8:
+                if (position->board[square] != rook) return;
+                rookSquare = square;
+                break;
+            default:
+                if (position->board[square] != NoPiece) return;
+                break;
+        }
+    }
+    
+    if (containsTargets(opponentMoves, mask)) return;
+    
+    Move move = {4, NoSquare, NoPiece, 0.0};
+    move.atoms[0].square = kingSquare;
+    move.atoms[0].newContents = NoPiece;
+    move.atoms[1].square = kingSquare + 2 * direction;
+    move.atoms[1].newContents = king;
+    move.atoms[2].square = rookSquare;
+    move.atoms[2].newContents = NoPiece;
+    move.atoms[3].square = kingSquare + direction;
+    move.atoms[3].newContents = rook;
+    
+    addMove(moveList, move);
+}
+
+void addCastlingMoves(const Position *position, MoveList *moveList, Player player, const MoveList *opponentMoves) {
+    if (position->castlingFlags == 0) {
+        return;
+    }
+    
+    tryAddCastlingMove(position, moveList,player, 1, opponentMoves);
+    tryAddCastlingMove(position, moveList, player, -1, opponentMoves);
+}
+

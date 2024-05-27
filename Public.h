@@ -8,56 +8,80 @@
 #ifndef Public_h
 #define Public_h
 
-extern const int engPawn;
-extern const int engKnight;
-extern const int engBishop;
-extern const int engRook;
-extern const int engQueen;
-extern const int engKing;
-extern const int engNoPiece;
+#include <stdbool.h>
 
-extern const int engWhite;
-extern const int engBlack;
-extern const int engNoPlayer;
+typedef enum {
+    White = 0,
+    Black,
+    NoPlayer
+} EngPlayer;
 
-extern const int engWhiteCanCastleLong;
-extern const int engWhiteCanCastleShort;
-extern const int engBlackCanCastleLong;
-extern const int engBlackCanCastleShort;
+typedef enum {
+    Pawn = 0
+    ,Knight
+    ,Bishop
+    ,Rook
+    ,Queen
+    ,King
+    ,NoPieceType
+} EngPieceType;
 
-typedef struct {
-    int type;
-    int owner;
+typedef enum {
+    WhitePawn = Pawn
+    ,WhiteKnight
+    ,WhiteBishop
+    ,WhiteRook
+    ,WhiteQueen
+    ,WhiteKing
+    ,BlackPawn = WhitePawn + 16
+    ,BlackKnight
+    ,BlackBishop
+    ,BlackRook
+    ,BlackQueen
+    ,BlackKing
+    ,NoPiece = NoPlayer * 16 + NoPieceType
 } EngPiece;
 
-typedef struct EngPositionDto EngPositionDto;
+typedef struct {
+    EngPlayer playerToMove;
+    int epSquare;
+    bool whiteCanCastleShort, whiteCanCastleLong, blackCanCastleShort, blackCanCastleLong;
+    int halfMoveClock;
+    int moveNumber;
+    EngPiece *const board;
+} EngGameStateDto;
 
-EngPositionDto *engCreatePositionDto(void);
+typedef int EngSquare;
 
-void engFreePositionDto(EngPositionDto *dto);
+extern const EngSquare EngNoSquare;
 
-void engSetPieceAt(EngPositionDto *dto, int file, int rank, EngPiece piece);
+struct EngGameState;
 
-EngPiece engGetPieceAt(const EngPositionDto *dto, int file, int rank);
+typedef struct EngMoveQueryResults {
+    struct EngMoveQueryResponse *next;
+    EngSquare from, to;
+    EngSquare from1, from2;
+    EngSquare epSquare;
+    EngPiece promoteTo;
+} EngMoveQueryResults;
 
-void engSetPlayerToMove(EngPositionDto *dto, int playerToMove);
+EngGameStateDto *engCreateGameStateDto(void);
 
-int engGetPlayerToMove(const EngPositionDto *dto);
+void engFreeGameStateDto(EngGameStateDto *);
 
-void engSetEpSquare(EngPositionDto *dto, int epSquare);
+struct EngGameState *engDtoToGameState(const EngGameStateDto *);
 
-int engGetEpSquare(const EngPositionDto *dto);
+void engFreeGameState(struct EngGameState *);
 
-void engSetCastlingFlags(EngPositionDto *dto, int castlingFlags);
+EngGameStateDto *engGameStateToDto(const struct EngGameState *gameState);
 
-int engGetCastlingFlags(const EngPositionDto *dto);
+EngMoveQueryResults *engFindMovesByFromAndTo(const struct EngGameState *gameState, EngSquare from, EngSquare to);
 
-void engSetHalfMoveCount(EngPositionDto *dto, int halfMoveCount);
+EngMoveQueryResults *engFindMovesByPieceAndTo(const struct EngGameState *gameState, EngPieceType pieceType, EngSquare to);
 
-int engGetHalfMoveCount(const EngPositionDto *dto);
+void engFreeMoveQueryResults(EngMoveQueryResults *);
 
-void engSetMoveNumber(EngPositionDto *dto, int moveNumber);
 
-int engGetMoveNumber(const EngPositionDto *dto);
 
 #endif /* Public_h */
+
