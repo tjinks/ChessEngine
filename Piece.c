@@ -13,4 +13,4 @@ extern PieceType getPieceType(Piece piece);
 
 extern Player getOwner(Piece piece);
 
-inline Player getOpponent(Player player);
+extern Player getOpponent(Player player);

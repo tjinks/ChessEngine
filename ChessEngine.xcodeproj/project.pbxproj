@@ -26,8 +26,8 @@
 		EA5D55342BFF451800F1BFB8 /* MoveList.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D55322BFF451800F1BFB8 /* MoveList.h */; };
 		EA5D55352BFF451800F1BFB8 /* MoveList.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55332BFF451800F1BFB8 /* MoveList.c */; };
 		EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55362BFF996800F1BFB8 /* MoveListTests.m */; };
-		EA5D553E2C00863100F1BFB8 /* ChessGame.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5D553C2C00863100F1BFB8 /* ChessGame.h */; };
-		EA5D553F2C00863100F1BFB8 /* ChessGame.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D553D2C00863100F1BFB8 /* ChessGame.m */; };
+		EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC22C04B4DE00211C61 /* TestSupport.c */; };
+		EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC42C06120300211C61 /* MoveGeneratorTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,8 +70,9 @@
 		EA5D55322BFF451800F1BFB8 /* MoveList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoveList.h; sourceTree = "<group>"; };
 		EA5D55332BFF451800F1BFB8 /* MoveList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MoveList.c; sourceTree = "<group>"; };
 		EA5D55362BFF996800F1BFB8 /* MoveListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveListTests.m; sourceTree = "<group>"; };
-		EA5D553C2C00863100F1BFB8 /* ChessGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChessGame.h; sourceTree = "<group>"; };
-		EA5D553D2C00863100F1BFB8 /* ChessGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChessGame.m; sourceTree = "<group>"; };
+		EA897BC12C04B4DE00211C61 /* TestSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSupport.h; sourceTree = "<group>"; };
+		EA897BC22C04B4DE00211C61 /* TestSupport.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = TestSupport.c; sourceTree = "<group>"; };
+		EA897BC42C06120300211C61 /* MoveGeneratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveGeneratorTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +97,6 @@
 		EA5D54CE2BFCE26900F1BFB8 = {
 			isa = PBXGroup;
 			children = (
-				EA5D553C2C00863100F1BFB8 /* ChessGame.h */,
-				EA5D553D2C00863100F1BFB8 /* ChessGame.m */,
 				EA5D55322BFF451800F1BFB8 /* MoveList.h */,
 				EA5D55332BFF451800F1BFB8 /* MoveList.c */,
 				EA5D552C2BFF241B00F1BFB8 /* BoardGeometry.h */,
@@ -135,6 +134,9 @@
 				EA5D55082BFCE9C800F1BFB8 /* PieceTests.m */,
 				EA5D55302BFF368100F1BFB8 /* BoardGeometryTests.m */,
 				EA5D55362BFF996800F1BFB8 /* MoveListTests.m */,
+				EA897BC12C04B4DE00211C61 /* TestSupport.h */,
+				EA897BC22C04B4DE00211C61 /* TestSupport.c */,
+				EA897BC42C06120300211C61 /* MoveGeneratorTests.m */,
 			);
 			path = ChessEngineTests;
 			sourceTree = "<group>";
@@ -154,7 +156,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA5D553E2C00863100F1BFB8 /* ChessGame.h in Headers */,
 				EA5D54F52BFCE3F200F1BFB8 /* MoveGenerator.h in Headers */,
 				EA5D54F42BFCE3F200F1BFB8 /* Move.h in Headers */,
 				EA5D54F22BFCE3F200F1BFB8 /* GameState.h in Headers */,
@@ -275,7 +276,6 @@
 				EA5D552F2BFF241B00F1BFB8 /* BoardGeometry.c in Sources */,
 				EA5D54F32BFCE3F200F1BFB8 /* Move.c in Sources */,
 				EA5D54F62BFCE3F200F1BFB8 /* EngCommon.c in Sources */,
-				EA5D553F2C00863100F1BFB8 /* ChessGame.m in Sources */,
 				EA5D54F72BFCE3F200F1BFB8 /* MoveGenerator.c in Sources */,
 				EA5D55352BFF451800F1BFB8 /* MoveList.c in Sources */,
 				EA5D54F92BFCE3F200F1BFB8 /* Piece.c in Sources */,
@@ -286,9 +286,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */,
 				EA5D55092BFCE9C800F1BFB8 /* PieceTests.m in Sources */,
 				EA5D55312BFF368100F1BFB8 /* BoardGeometryTests.m in Sources */,
 				EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */,
+				EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

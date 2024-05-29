@@ -15,16 +15,6 @@
 #include "Piece.h"
 #include "BoardGeometry.h"
 
-typedef struct {
-    const Position *position;
-    MoveList *moveList;
-    Player player;
-    Direction pawnMoveDirection;
-    Direction pawnCaptureDirections[2];
-    int secondRank;
-    int seventhRank;
-} MoveGenerator;
-
 static Move createSimpleMove(const Position *position, int from, int to) {
     Move result;
     result.atomCount = 2;
@@ -197,7 +187,7 @@ static void addPawnMoves(MoveGenerator *generator, int from) {
     tryAddPawnCapture(generator, from, generator->pawnCaptureDirections[1]);
 }
 
-static void initMoveGenerator(MoveGenerator *generator, const Position *position, Player player) {
+void initMoveGenerator(MoveGenerator *generator, const Position *position, Player player) {
     generator->position = position;
     generator->moveList = acquireMoveList();
     generator->player = player;
@@ -216,51 +206,14 @@ static void initMoveGenerator(MoveGenerator *generator, const Position *position
     }
 }
 
-MoveList *generateMoves(const Position *position, Player player) {
-    MoveGenerator generator;
-    initMoveGenerator(&generator, position, player);
-    for (int i = 0; i < 64; i++) {
-        PieceType type = getPieceType(position->board[i]);
-        switch (type) {
-            case Pawn:
-                addPawnMoves(&generator, i);
-                break;
-            case Knight:
-                addKnightMoves(&generator, i);
-                break;
-            case Bishop:
-                addBishopMoves(&generator, i);
-                break;
-            case Rook:
-                addRookMoves(&generator, i);
-                break;
-            case Queen:
-                addQueenMoves(&generator, i);
-                break;
-            case King:
-                addKingMoves(&generator, i);
-                break;
-            default:
-                break;
-        }
-    }
-    
-    return generator.moveList;
-}
-
-void addNonCastlingMoves(const Position *position, MoveList *moveList, Player player);
-
-static const SquareMask whiteShortCastlingMask = (SquareMask)1 << e1 | (SquareMask)1 << f1 | (SquareMask)1 << g1;
-static const SquareMask whiteLongCastlingMask = (SquareMask)1 << e1 | (SquareMask)1 << d1 | (SquareMask)1 << c1;
-static const SquareMask blackShortCastlingMask = (SquareMask)1 << e8 | (SquareMask)1 << f8 | (SquareMask)1 << g8;
-static const SquareMask blackLongCastlingMask = (SquareMask)1 << e8 | (SquareMask)1 << d8 | (SquareMask)1 << c8;
-
-static void tryAddCastlingMove(const Position *position, MoveList *moveList, int player, int direction, const MoveList *opponentMoves) {
+static void tryAddCastlingMove(MoveGenerator *generator, int direction, const MoveList *opponentMoves) {
+    Player player = generator->player;
+    const Position *position = generator->position;
     int kingSquare;
     Piece king, rook;
     if (player == White) {
-        if ((position->castlingFlags && WhiteLong) == 0 && direction == -1) return;
-        if ((position->castlingFlags && WhiteShort) == 0 && direction == 1) return;
+        if ((position->castlingFlags & WhiteLong) == 0 && direction == -1) return;
+        if ((position->castlingFlags & WhiteShort) == 0 && direction == 1) return;
         kingSquare = e1;
         king = WhiteKing;
         rook = WhiteRook;
@@ -274,7 +227,6 @@ static void tryAddCastlingMove(const Position *position, MoveList *moveList, int
 
     SquareMask mask = 0;
     int rookSquare = NoSquare;
-    int i = 0;
     for (int i = 0; rookSquare == NoSquare; i++) {
         int square = kingSquare + direction * i;
         if (i <= 2) {
@@ -311,15 +263,45 @@ static void tryAddCastlingMove(const Position *position, MoveList *moveList, int
     move.atoms[3].square = kingSquare + direction;
     move.atoms[3].newContents = rook;
     
-    addMove(moveList, move);
+    addMove(generator->moveList, move);
 }
 
-void addCastlingMoves(const Position *position, MoveList *moveList, Player player, const MoveList *opponentMoves) {
-    if (position->castlingFlags == 0) {
-        return;
+void addNonCastlingMoves(MoveGenerator *generator) {
+    const Position *position = generator->position;
+    for (int i = 0; i < 64; i++) {
+        Piece piece = position->board[i];
+        if (getOwner(piece) != generator->player) {
+            continue;
+        }
+        
+        PieceType type = getPieceType(position->board[i]);
+        switch (type) {
+            case Pawn:
+                addPawnMoves(generator, i);
+                break;
+            case Knight:
+                addKnightMoves(generator, i);
+                break;
+            case Bishop:
+                addBishopMoves(generator, i);
+                break;
+            case Rook:
+                addRookMoves(generator, i);
+                break;
+            case Queen:
+                addQueenMoves(generator, i);
+                break;
+            case King:
+                addKingMoves(generator, i);
+                break;
+            default:
+                break;
+        }
     }
-    
-    tryAddCastlingMove(position, moveList,player, 1, opponentMoves);
-    tryAddCastlingMove(position, moveList, player, -1, opponentMoves);
+}
+
+void addCastlingMoves(MoveGenerator *generator, const MoveList *opponentMoves) {
+    tryAddCastlingMove(generator, 1, opponentMoves);
+    tryAddCastlingMove(generator, -1, opponentMoves);
 }
 

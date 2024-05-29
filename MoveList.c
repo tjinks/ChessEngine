@@ -76,7 +76,6 @@ bool containsTargets(const MoveList *moveList, SquareMask targets) {
     return false;
 }
 
-
 void releaseMoveList(MoveList *moveList) {
     moveList->next = mlFreeList;
     mlFreeList = moveList;

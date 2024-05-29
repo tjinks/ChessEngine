@@ -21,7 +21,7 @@ typedef enum {
 
 typedef struct {
     Piece board[64];
-    int castlingFlags;
+    CastlingFlags castlingFlags;
     int epSquare;
     int hash;
     Player playerToMove;

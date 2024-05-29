@@ -11,12 +11,23 @@
 #include "Move.h"
 #include "GameState.h"
 #include "MoveList.h"
+#include "BoardGeometry.h"
 
-MoveList *generateMoves(const Position *position, Player player);
+typedef struct {
+    const Position *position;
+    MoveList *moveList;
+    Player player;
+    Direction pawnMoveDirection;
+    Direction pawnCaptureDirections[2];
+    int secondRank;
+    int seventhRank;
+} MoveGenerator;
 
-void addNonCastlingMoves(const Position *position, MoveList *moveList, Player player);
+void initMoveGenerator(MoveGenerator *generator, const Position *position, Player player);
 
-void addCastlingMoves(const Position *position, MoveList *moveList, Player player, const MoveList *opponentMoves);
+void addNonCastlingMoves(MoveGenerator *);
+
+void addCastlingMoves(MoveGenerator *, const MoveList *opponentMoves);
 
 
 #endif /* EngMoveGenerator_h */
