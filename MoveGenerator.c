@@ -209,8 +209,8 @@ static void tryAddCastlingMove(MoveGenerator *generator, int direction, const Mo
         king = WhiteKing;
         rook = WhiteRook;
     } else {
-        if ((position->castlingFlags && BlackLong) == 0 && direction == -1) return;
-        if ((position->castlingFlags && BlackShort) == 0 && direction == 1) return;
+        if ((position->castlingFlags & BlackLong) == 0 && direction == -1) return;
+        if ((position->castlingFlags & BlackShort) == 0 && direction == 1) return;
         kingSquare = e8;
         king = BlackKing;
         rook = BlackRook;
