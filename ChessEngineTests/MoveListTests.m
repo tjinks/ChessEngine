@@ -51,7 +51,7 @@ static Move createMove(int target, Piece piece, double score) {
         XCTAssertEqual(i, result->moves[i].atomCount);
     }
     
-    releaseMoveList(moveList);
+    releaseMoveList(result);
 }
 
 - (void)testSortMoves {

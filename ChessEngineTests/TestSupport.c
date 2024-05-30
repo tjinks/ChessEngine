@@ -106,7 +106,7 @@ static bool decodeSquare(const char *encoding, int *result) {
     }
     
     int file = encoding[0] - 'a';
-    int rank = encoding[1] - '0';
+    int rank = encoding[1] - '1';
     if (file < 0 || file > 7 || rank < 0 || rank > 7) {
         return false;
     }
@@ -178,7 +178,6 @@ static void setKingSquares(Position *position) {
 
 GameState *parseFen(const char *fen) {
     GameState *result = acquireGameState();
-    bool valid = true;
     char *fenCopy = strdup(fen);
     if (fenCopy) {
         char *boardEncoding = strtok(fenCopy, ws);

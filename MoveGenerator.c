@@ -76,13 +76,13 @@ static void addRookMoves(MoveGenerator *generator, int from) {
         to = south(to);
     }
 
-    to = east(to);
+    to = east(from);
     while (to != NoSquare) {
         if (!tryAddSimpleMove(generator, from, to)) break;
         to = east(to);
     }
 
-    to = west(to);
+    to = west(from);
     while (to != NoSquare) {
         if (!tryAddSimpleMove(generator, from, to)) break;
         to = west(to);
@@ -103,13 +103,13 @@ static void addBishopMoves(MoveGenerator *generator, int from) {
         to = ne(to);
     }
 
-    to = sw(to);
+    to = sw(from);
     while (to != NoSquare) {
         if (!tryAddSimpleMove(generator, from, to)) break;
         to = sw(to);
     }
 
-    to = se(to);
+    to = se(from);
     while (to != NoSquare) {
         if (!tryAddSimpleMove(generator, from, to)) break;
         to = se(to);
@@ -119,14 +119,6 @@ static void addBishopMoves(MoveGenerator *generator, int from) {
 static void addQueenMoves(MoveGenerator *generator, int from) {
     addBishopMoves(generator, from);
     addRookMoves(generator, from);
-}
-
-inline static int initialKingSquare(Player player) {
-    switch (player) {
-        case White: return e1;
-        case Black: return e8;
-        default: return NoSquare;
-    }
 }
 
 static void addKingMoves(MoveGenerator *generator, int from) {
@@ -164,7 +156,6 @@ static void tryAddPawnCapture(MoveGenerator *generator, int from, Direction dire
 
 static void addPawnMoves(MoveGenerator *generator, int from) {
     int r = rank(from);
-    int f = file(from);
     const Position *position = generator->position;
     
     // Is single move advance possible?
@@ -263,7 +254,7 @@ static void tryAddCastlingMove(MoveGenerator *generator, int direction, const Mo
     move.atoms[3].square = kingSquare + direction;
     move.atoms[3].newContents = rook;
     
-    addMove(generator->moveList, move);
+    generator->moveList = addMove(generator->moveList, move);
 }
 
 void addNonCastlingMoves(MoveGenerator *generator) {

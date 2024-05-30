@@ -185,375 +185,10 @@
             filePath = "ChessEngineTests/MoveGeneratorTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "-testKingMoves"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "21C39C5D-9155-423A-9308-E79EC7481947"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "18035545-EFE0-49BD-8C6C-D0F5F1289F06"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "18035545-EFE0-49BD-8C6C-D0F5F1289F06 - aa42312593a10990"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "560">
-               </Location>
-               <Location
-                  uuid = "18035545-EFE0-49BD-8C6C-D0F5F1289F06 - aa42312593a10814"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "89"
-                  endingLineNumber = "89"
-                  offsetFromSymbolStart = "640">
-               </Location>
-               <Location
-                  uuid = "18035545-EFE0-49BD-8C6C-D0F5F1289F06 - aa42312593a10875"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "90"
-                  endingLineNumber = "90"
-                  offsetFromSymbolStart = "652">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A8D2007C-86D7-4089-AB84-EDA82C60881A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "A8D2007C-86D7-4089-AB84-EDA82C60881A - aa42312593a1093b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80"
-                  offsetFromSymbolStart = "488">
-               </Location>
-               <Location
-                  uuid = "A8D2007C-86D7-4089-AB84-EDA82C60881A - aa42312593a109bf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "84"
-                  endingLineNumber = "84"
-                  offsetFromSymbolStart = "568">
-               </Location>
-               <Location
-                  uuid = "A8D2007C-86D7-4089-AB84-EDA82C60881A - aa42312593a10990"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "85"
-                  endingLineNumber = "85"
-                  offsetFromSymbolStart = "580">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C41E5AC8-4EE5-407D-B325-0B80310E62E2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "C41E5AC8-4EE5-407D-B325-0B80310E62E2 - aa42312593a10a05"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "412">
-               </Location>
-               <Location
-                  uuid = "C41E5AC8-4EE5-407D-B325-0B80310E62E2 - aa42312593a10af9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78"
-                  offsetFromSymbolStart = "492">
-               </Location>
-               <Location
-                  uuid = "C41E5AC8-4EE5-407D-B325-0B80310E62E2 - aa42312593a10ada"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "504">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2A3FAD84-69B7-41A2-9265-1A31AEB6C9D5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "2A3FAD84-69B7-41A2-9265-1A31AEB6C9D5 - aa42312593a10b4f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "68"
-                  endingLineNumber = "68"
-                  offsetFromSymbolStart = "280">
-               </Location>
-               <Location
-                  uuid = "2A3FAD84-69B7-41A2-9265-1A31AEB6C9D5 - aa42312593a10bc3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "72"
-                  endingLineNumber = "72"
-                  offsetFromSymbolStart = "360">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5A88F105-DAEB-4C28-9B37-F3868D36548B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "58E13BAD-4313-4960-A0BC-1D26373246E3"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/TestSupport.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "decodeBoard(encoding, board)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "58E13BAD-4313-4960-A0BC-1D26373246E3 - aa42312593a10875"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "90"
-                  endingLineNumber = "90"
-                  offsetFromSymbolStart = "608">
-               </Location>
-               <Location
-                  uuid = "58E13BAD-4313-4960-A0BC-1D26373246E3 - aa42312593a108e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decodeBoard"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/TestSupport.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "94"
-                  endingLineNumber = "94"
-                  offsetFromSymbolStart = "688">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D674487B-1B7A-4631-8263-7758ED0A4F47"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ChessEngineTests/MoveGeneratorTests.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-testKingMoves"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D674487B-1B7A-4631-8263-7758ED0A4F47 - e1a4dd546554e478"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MoveGeneratorTests testKingMoves]"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35"
-                  offsetFromSymbolStart = "436">
-               </Location>
-               <Location
-                  uuid = "D674487B-1B7A-4631-8263-7758ED0A4F47 - e1a4dd546554e24a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MoveGeneratorTests testKingMoves]"
-                  moduleName = "ChessEngineTests"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "436">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -582,8 +217,8 @@
             filePath = "ChessEngineTests/MoveGeneratorTests.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "-testKingMoves"
             landmarkType = "7">
             <Locations>
@@ -693,6 +328,368 @@
                   offsetFromSymbolStart = "10028">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F26696D4-0AAC-4F09-8531-C44259F35406"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoveGenerator.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "addNonCastlingMoves(generator)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D9A82443-674A-401D-B405-E50D91185FB5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoveGenerator.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "addRookMoves(generator, from)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A1CDA2BE-703D-49AB-BFBE-05F01AB122BD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoveGenerator.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "addNonCastlingMoves(generator)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/MoveGeneratorTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "-testRookMoves"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "444">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "524">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "1608">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "1892">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "1956">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "2116">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f86d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "2272">
+               </Location>
+               <Location
+                  uuid = "7B124FB4-5B05-4E44-8808-9CF87977FA0E - 4af92691ddf6f80a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MoveGeneratorTests testRookMoves]"
+                  moduleName = "ChessEngineTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tony/Documents/XCode/TjChess/ChessEngine/ChessEngineTests/MoveGeneratorTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "432">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5123AA8-086B-4D0A-82E6-503C7D097F1E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/TestSupport.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "parseFen(fen)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3DFFEAFF-6F09-4CA5-B83D-3D7631D41FD5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/TestSupport.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "decodeBoard(encoding, board)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63F8FB9D-B413-4F31-9A95-888B7209C236"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/TestSupport.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "decodeBoard(encoding, board)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "46405B20-F602-4E3B-B1B1-7EEA6ACCC3FD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/TestSupport.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "decodeBoard(encoding, board)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6CCE7F2E-DD00-4978-9987-781D9403204F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/TestSupport.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "decodeBoard(encoding, board)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1132E38B-72AE-4E7D-8820-E6793DB008A0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoveGenerator.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "tryAddPawnCapture(generator, from, direction)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F5E44A38-BDA8-450F-95E5-F55A9FB18195"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/MoveListTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-testContainsTargets"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "35CAE7E2-32A4-47B1-9A53-3D9E90F03063"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/MoveListTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-testAddMove"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D339FA9-5F46-4D73-A39F-E04BA4AE4E06"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/MoveListTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-testSortMoves"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "66578FA8-139C-4486-990E-60B02E0732DE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ChessEngineTests/MoveListTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-testContainsTargets"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60A1D7ED-C673-4E60-A464-5B806B7A7569"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MoveList.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "releaseMoveList(moveList)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
