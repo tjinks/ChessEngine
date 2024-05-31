@@ -327,9 +327,38 @@ static void checkNoCastling(const MoveList *moveList) {
 }
 
 - (void)testBlackNoCastlingAllowed {
-    static const char *fen = "4k3/8/8/8/8/8/8/R3K2R b ----";
+    static const char *fen = "r3k2r/8/8/8/8/8/8/4K3 b ----";
+    runCastlingTest(fen, Black, checkNoCastling);
+}
+
+- (void)testWhiteCastlingBlockedByIntermediatePiece {
+    static const char *fen = "4k3/8/8/8/8/8/8/Rb2KB1R w QK--";
     runCastlingTest(fen, White, checkNoCastling);
 }
 
+- (void)testBlackCastlingBlockedByIntermediatePiece {
+    static const char *fen = "rn2kb1r/8/8/8/8/8/8/4K3 b ----";
+    runCastlingTest(fen, Black, checkNoCastling);
+}
+
+- (void)testWhiteCannotCastleWhenInCheck {
+    static const char *fen = "4k3/8/8/8/8/3n4/8/R3K2R w QK--";
+    runCastlingTest(fen, White, checkNoCastling);
+}
+
+- (void)testBlackCannotCastleWhenInCheck {
+    static const char *fen = "r3k2r/8/3N4/8/8/8/8/4K3 b --qk";
+    runCastlingTest(fen, Black, checkNoCastling);
+}
+
+- (void)testWhiteCastlingCannotCrossAttackedSquare {
+    static const char *fen = "4k3/8/8/8/8/3q4/3P4/R3K2R w QK--";
+    runCastlingTest(fen, White, checkWhiteCanCastleLongOnly);
+}
+
+- (void)testBlackCastlingCannotCrossAttackedSquare {
+    static const char *fen = "r3k2r/3p4/3Q4/8/8/8/8/4K3 b --qk";
+    runCastlingTest(fen, Black, checkBlackCanCastleLongOnly);
+}
 
 @end
