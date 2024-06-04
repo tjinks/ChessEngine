@@ -10,43 +10,19 @@
 #include "EngCommon.h"
 #include "BoardGeometry.h"
 #include "GameState.h"
+#include "AnalysisData.h"
 
 const EngSquare EngNoSquare = NoSquare;
 
-static const EngPiece InitialPosition[] = {
-    WhiteRook, WhiteKnight, WhiteBishop, WhiteQueen, WhiteKing, WhiteBishop, WhiteKnight, WhiteRook,
-    WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn,
-    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
-    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
-    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
-    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
-    BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn,
-    BlackRook, BlackKnight, BlackBishop, BlackQueen, BlackKing, BlackBishop, BlackKnight, BlackRook
-};
-
-EngGameStateDto *engCreateGameStateDto(void) {
-    EngGameStateDto *result = getMem(sizeof(EngGameStateDto));
-    *(EngPiece **)(&result->board) = getMem(sizeof(EngPiece) * 64);
-    memcpy(result->board, InitialPosition, sizeof(EngPiece) * 64);
-    result->blackCanCastleLong = true;
-    result->blackCanCastleShort = true;
-    result->whiteCanCastleLong = true;
-    result->whiteCanCastleShort = true;
-    result->epSquare = NoSquare;
-    result->halfMoveClock = 100;
-    result->moveNumber = 1;
-    result->playerToMove = White;
-    return result;
+EngPiece *engGetBoardPtr(EngGameStateDto *dto) {
+    return &dto->board[0];
 }
 
-void engFreeGameStateDto(EngGameStateDto *dto) {
-    freeMem(dto->board);
-    freeMem(dto);
-}
-
-struct EngGameState *engDtoToGameState(const EngGameStateDto *dto) {
-    GameState *result = acquireGameState();
-    Position *position = &result->position;
+EngGameState *engCreateGameState(const EngGameStateDto *dto) {
+    EngGameState *result = getMem(sizeof(EngGameState));
+    GameState *gameState = acquireGameState();
+    result->handle = gameState;
+    Position *position = &gameState->position;
     memcpy(position->board, dto->board, sizeof(Piece) * 64);
 
     position->castlingFlags = 0;
@@ -58,14 +34,61 @@ struct EngGameState *engDtoToGameState(const EngGameStateDto *dto) {
     position->epSquare = dto->epSquare;
     position->playerToMove = dto->playerToMove;
     
-    result->halfMoveClock = dto->halfMoveClock;
-    result->moveNumber = dto->moveNumber;
+    gameState->halfMoveClock = dto->halfMoveClock;
+    gameState->moveNumber = dto->moveNumber;
     
     return result;
 }
 
-void engFreeGameState(struct EngGameState *gameState) {
-    releaseGameState(gameState);
+void engFreeGameState(EngGameState *engGameState) {
+    releaseGameState(engGameState->handle);
+    freeMem(engGameState);
+}
+
+EngGameStateDto engGetGameStateDto(const EngGameState *engGameState) {
+    EngGameStateDto result;
+    GameState *gameState = engGameState->handle;
+    const Position *position = &gameState->position;
+    CastlingFlags castlingFlags = position->castlingFlags;
+    result.blackCanCastleLong = ((castlingFlags & BlackLong) != 0);
+    result.blackCanCastleShort = ((castlingFlags & BlackShort) != 0);
+    result.whiteCanCastleLong = ((castlingFlags & WhiteLong) != 0);
+    result.whiteCanCastleShort = ((castlingFlags & WhiteShort) != 0);
+    memcpy(result.board, gameState->position.board, sizeof(Piece) * 64);
+    result.epSquare = position->epSquare;
+    result.playerToMove = position->playerToMove;
+    result.halfMoveClock = gameState->halfMoveClock;
+    result.moveNumber = gameState->moveNumber;
+    return result;
+}
+
+EngMoveQueryResult *engFindMovesByFromAndTo(const EngGameState *engGameState, EngSquare from, EngSquare to) {
+    AnalysisData analysisData = createAnalysisData(engGameState->handle);
+    EngMoveQueryResult *result = NULL;
+    MoveList *moveList = analysisData.activePlayerMoves;
+    const Position *position = analysisData.position;
+    for (int i = 0; i < moveList->size; i++) {
+        Move move = moveList->moves[i];
+        int f = move.atoms[0].square;
+        int t = move.atoms[1].square;
+        if (f == from && t == to) {
+            EngMoveQueryResult *queryResult = getMem(sizeof(EngMoveQueryResult));
+            queryResult->nextResult = result;
+            result = queryResult;
+        }
+    }
+    return NULL;
+}
+
+EngMoveQueryResult *engFindMovesByPieceAndTo(const EngGameState *engGameState, EngPieceType pieceType, EngSquare to) {
+    return NULL;
+}
+
+void engFreeMoveQueryResults(EngMoveQueryResult *firstResult) {
+    if (firstResult) {
+        engFreeMoveQueryResults(firstResult->nextResult);
+        freeMem(firstResult);
+    }
 }
 
 

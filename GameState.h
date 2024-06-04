@@ -28,21 +28,23 @@ typedef struct {
     int kingSquare[2];
 } Position;
 
-typedef struct EngGameState {
-    struct EngGameState *prev;
+typedef struct GameState {
+    struct GameState *prev;
     Position position;
     int halfMoveClock;
     int moveNumber;
-    MoveList *activeMoves;
-    MoveList *passiveMoves;
+    //MoveList *activeMoves;
+    //MoveList *passiveMoves;
 } GameState;
 
 GameState *acquireGameState(void);
 
-GameState *makeMove(const GameState *initialState, Move move);
+GameState *makeMove(GameState *initialState, Move move);
 
 void releaseGameState(GameState *gameState);
 
 GameState *retractMove(GameState *gameState);
+
+void generateHash(Position *position);
 
 #endif /* EngPosition_h */

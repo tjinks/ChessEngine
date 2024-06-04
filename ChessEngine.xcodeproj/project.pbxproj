@@ -28,6 +28,11 @@
 		EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55362BFF996800F1BFB8 /* MoveListTests.m */; };
 		EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC22C04B4DE00211C61 /* TestSupport.c */; };
 		EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC42C06120300211C61 /* MoveGeneratorTests.m */; };
+		EA897BC82C0A15DC00211C61 /* Evaluation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA897BC62C0A15DC00211C61 /* Evaluation.h */; };
+		EA897BC92C0A15DC00211C61 /* Evaluation.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC72C0A15DC00211C61 /* Evaluation.c */; };
+		EA897BD02C0A4D2300211C61 /* AnalysisData.h in Headers */ = {isa = PBXBuildFile; fileRef = EA897BCE2C0A4D2300211C61 /* AnalysisData.h */; };
+		EA897BD12C0A4D2300211C61 /* AnalysisData.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BCF2C0A4D2300211C61 /* AnalysisData.c */; };
+		EA897BD32C0C790900211C61 /* AnalysisDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BD22C0C790900211C61 /* AnalysisDataTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +78,11 @@
 		EA897BC12C04B4DE00211C61 /* TestSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSupport.h; sourceTree = "<group>"; };
 		EA897BC22C04B4DE00211C61 /* TestSupport.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = TestSupport.c; sourceTree = "<group>"; };
 		EA897BC42C06120300211C61 /* MoveGeneratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveGeneratorTests.m; sourceTree = "<group>"; };
+		EA897BC62C0A15DC00211C61 /* Evaluation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Evaluation.h; sourceTree = "<group>"; };
+		EA897BC72C0A15DC00211C61 /* Evaluation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Evaluation.c; sourceTree = "<group>"; };
+		EA897BCE2C0A4D2300211C61 /* AnalysisData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalysisData.h; sourceTree = "<group>"; };
+		EA897BCF2C0A4D2300211C61 /* AnalysisData.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AnalysisData.c; sourceTree = "<group>"; };
+		EA897BD22C0C790900211C61 /* AnalysisDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalysisDataTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +107,10 @@
 		EA5D54CE2BFCE26900F1BFB8 = {
 			isa = PBXGroup;
 			children = (
+				EA897BCE2C0A4D2300211C61 /* AnalysisData.h */,
+				EA897BCF2C0A4D2300211C61 /* AnalysisData.c */,
+				EA897BC62C0A15DC00211C61 /* Evaluation.h */,
+				EA897BC72C0A15DC00211C61 /* Evaluation.c */,
 				EA5D55322BFF451800F1BFB8 /* MoveList.h */,
 				EA5D55332BFF451800F1BFB8 /* MoveList.c */,
 				EA5D552C2BFF241B00F1BFB8 /* BoardGeometry.h */,
@@ -137,6 +151,7 @@
 				EA897BC12C04B4DE00211C61 /* TestSupport.h */,
 				EA897BC22C04B4DE00211C61 /* TestSupport.c */,
 				EA897BC42C06120300211C61 /* MoveGeneratorTests.m */,
+				EA897BD22C0C790900211C61 /* AnalysisDataTests.m */,
 			);
 			path = ChessEngineTests;
 			sourceTree = "<group>";
@@ -156,8 +171,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA897BD02C0A4D2300211C61 /* AnalysisData.h in Headers */,
 				EA5D54F52BFCE3F200F1BFB8 /* MoveGenerator.h in Headers */,
 				EA5D54F42BFCE3F200F1BFB8 /* Move.h in Headers */,
+				EA897BC82C0A15DC00211C61 /* Evaluation.h in Headers */,
 				EA5D54F22BFCE3F200F1BFB8 /* GameState.h in Headers */,
 				EA5D55342BFF451800F1BFB8 /* MoveList.h in Headers */,
 				EA5D552E2BFF241B00F1BFB8 /* BoardGeometry.h in Headers */,
@@ -272,11 +289,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5D552A2BFD0F5C00F1BFB8 /* Public.c in Sources */,
+				EA897BD12C0A4D2300211C61 /* AnalysisData.c in Sources */,
 				EA5D54F12BFCE3F200F1BFB8 /* GameState.c in Sources */,
 				EA5D552F2BFF241B00F1BFB8 /* BoardGeometry.c in Sources */,
 				EA5D54F32BFCE3F200F1BFB8 /* Move.c in Sources */,
 				EA5D54F62BFCE3F200F1BFB8 /* EngCommon.c in Sources */,
 				EA5D54F72BFCE3F200F1BFB8 /* MoveGenerator.c in Sources */,
+				EA897BC92C0A15DC00211C61 /* Evaluation.c in Sources */,
 				EA5D55352BFF451800F1BFB8 /* MoveList.c in Sources */,
 				EA5D54F92BFCE3F200F1BFB8 /* Piece.c in Sources */,
 			);
@@ -289,6 +308,7 @@
 				EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */,
 				EA5D55092BFCE9C800F1BFB8 /* PieceTests.m in Sources */,
 				EA5D55312BFF368100F1BFB8 /* BoardGeometryTests.m in Sources */,
+				EA897BD32C0C790900211C61 /* AnalysisDataTests.m in Sources */,
 				EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */,
 				EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */,
 			);

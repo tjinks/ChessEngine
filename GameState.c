@@ -14,41 +14,35 @@
 
 static GameState *gsFreeList = NULL;
 
-GameState *acquireGameState(void) {
-    GameState *result;
-    if (gsFreeList) {
-        result = gsFreeList;
-        gsFreeList = gsFreeList->prev;
-    } else {
-        result = getMem(sizeof(GameState));
-    }
+static const int HashFactor = 255;
 
-    result->activeMoves = acquireMoveList();
-    result->passiveMoves = acquireMoveList();
-    return result;
-}
-
-GameState *retractMove(GameState *gs) {
-    GameState *result = gs->prev;
-    releaseGameState(gs);
-    return result;
-}
-
-void releaseGameState(GameState *gs) {
-    releaseMoveList(gs->activeMoves);
-    releaseMoveList(gs->passiveMoves);
-    gs->prev = gsFreeList;
-    gsFreeList = gs;
-}
-
-static void updatePosition(Position *position, Move move) {
+static void updatePosition(GameState *gameState, Move move) {
+    Position *position = &gameState->position;
     int hash = position->hash;
+    bool restartClock = false;
     for (int i = 0; i < move.atomCount; i++) {
         int square = move.atoms[i].square;
         Piece newContents = move.atoms[i].newContents;
         Piece originalContents = position->board[square];
+        switch (i) {
+            case 0:
+                if (getPieceType(originalContents) == Pawn) {
+                    restartClock = true;
+                }
+                
+                break;
+            case 1:
+                if (originalContents != NoPiece) {
+                    restartClock = true;
+                }
+                
+                break;
+            default:
+                break;
+        }
+        
         position->board[square] = newContents;
-        hash += 255 * (square + 1) * (newContents - originalContents);
+        hash += HashFactor * (square + 1) * (newContents - originalContents);
         if (position->castlingFlags) {
             switch (square) {
                 case a1:
@@ -75,12 +69,53 @@ static void updatePosition(Position *position, Move move) {
     
     position->hash = -hash;
     position->epSquare = move.epSquare;
+    gameState->halfMoveClock = restartClock ? 100 : gameState->halfMoveClock - 1;
 }
 
-GameState *makeMove(const GameState *initialState, Move move) {
+GameState *acquireGameState(void) {
+    GameState *result;
+    if (gsFreeList) {
+        result = gsFreeList;
+        gsFreeList = gsFreeList->prev;
+    } else {
+        result = getMem(sizeof(GameState));
+    }
+
+    return result;
+}
+
+GameState *retractMove(GameState *gs) {
+    GameState *result = gs->prev;
+    releaseGameState(gs);
+    return result;
+}
+
+void releaseGameState(GameState *gs) {
+    gs->prev = gsFreeList;
+    gsFreeList = gs;
+}
+
+GameState *makeMove(GameState *initialState, Move move) {
     GameState *result = acquireGameState();
     *result = *initialState;
-    updatePosition(&result->position, move);
+    updatePosition(result, move);
+    if (result->position.playerToMove == White) {
+        result->moveNumber++;
+    }
     
-    return NULL;
+    result->prev = initialState;
+    return result;
+}
+
+void generateHash(Position *position) {
+    int hash = 0;
+    for (int square = 0; square < 64; square++) {
+        hash += HashFactor * (square + 1) * position->board[square];
+    }
+    
+    if (position->playerToMove == Black) {
+        hash = -hash;
+    }
+    
+    position->hash = hash;
 }

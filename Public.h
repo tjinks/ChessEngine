@@ -42,46 +42,76 @@ typedef enum {
     ,NoPiece = NoPlayer * 16 + NoPieceType
 } EngPiece;
 
+typedef int EngSquare;
+typedef int EngMoveCounter;
+
 typedef struct {
     EngPlayer playerToMove;
-    int epSquare;
+    EngSquare epSquare;
     bool whiteCanCastleShort, whiteCanCastleLong, blackCanCastleShort, blackCanCastleLong;
-    int halfMoveClock;
-    int moveNumber;
-    EngPiece *const board;
+    EngMoveCounter halfMoveClock;
+    EngMoveCounter moveNumber;
+    EngPiece board[64];
 } EngGameStateDto;
 
-typedef int EngSquare;
+typedef struct {
+    int positionsAnalysed;
+    int ply;
+} EngAnalysisProgress;
+
+typedef bool (*ProgressCallback)(EngAnalysisProgress);
+
+typedef struct {
+    struct GameState *handle;
+} EngGameState;
+
+
 
 extern const EngSquare EngNoSquare;
 
-struct EngGameState;
+typedef struct {
+    EngPiece piece;
+    EngSquare source, target;
+} EngMovePart;
 
-typedef struct EngMoveQueryResults {
-    struct EngMoveQueryResponse *next;
-    EngSquare from, to;
-    EngSquare from1, from2;
-    EngSquare epSquare;
-    EngPiece promoteTo;
-} EngMoveQueryResults;
+typedef struct {
+    int partCount;
+    EngMovePart parts[2];
+    EngSquare epCapture;
+    bool isCheck;
+    bool isCheckmate;
+    bool isCapture;
+} EngMove;
 
-EngGameStateDto *engCreateGameStateDto(void);
+typedef struct EngMoveQueryResult {
+    struct EngMoveQueryResult *nextResult;
+    EngMove *moves;
+} EngMoveQueryResult;
 
-void engFreeGameStateDto(EngGameStateDto *);
+typedef struct {
+    bool whiteCanCastleShort;
+    bool whiteCanCastleLong;
+    bool blackCanCastleShort;
+    bool blackCanCastleLong;
+} EngCastlingFlags;
 
-struct EngGameState *engDtoToGameState(const EngGameStateDto *);
+EngPiece *engGetBoardPtr(EngGameStateDto *);
 
-void engFreeGameState(struct EngGameState *);
+EngGameState *engCreateGameState(const EngGameStateDto *);
 
-EngGameStateDto *engGameStateToDto(const struct EngGameState *gameState);
+void engFreeGameState(EngGameState *gameState);
 
-EngMoveQueryResults *engFindMovesByFromAndTo(const struct EngGameState *gameState, EngSquare from, EngSquare to);
+EngGameStateDto engGetGameStateDto(const EngGameState *gameState);
 
-EngMoveQueryResults *engFindMovesByPieceAndTo(const struct EngGameState *gameState, EngPieceType pieceType, EngSquare to);
+EngMoveQueryResult *engFindMovesByFromAndTo(const EngGameState *gameState, EngSquare from, EngSquare to);
 
-void engFreeMoveQueryResults(EngMoveQueryResults *);
+EngMoveQueryResult *engFindMovesByPieceAndTo(const EngGameState *gameState, EngPieceType pieceType, EngSquare to);
 
+void engFreeMoveQueryResults(EngMoveQueryResult *firstResult);
 
+void engMakeMove(EngGameState *gameState, EngMove move);
+
+void retractLastMove(EngGameState *gameState);
 
 #endif /* Public_h */
 
