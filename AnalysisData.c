@@ -40,7 +40,7 @@ AnalysisData createAnalysisData(const GameState *gameState) {
     return result;
 }
 
-void freeAnalysisData(AnalysisData *data) {
+void freeAnalysisData(const AnalysisData *data) {
     releaseMoveList(data->activePlayerMoves);
     releaseMoveList(data->passivePlayerMoves);
 }
@@ -52,5 +52,6 @@ bool isActivePlayerInCheck(const AnalysisData *analysisData) {
 bool isPassivePlayerInCheck(const AnalysisData *analysisData) {
     return isInCheck(analysisData, false);
 }
+
 
 

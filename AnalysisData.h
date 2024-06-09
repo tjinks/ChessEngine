@@ -20,7 +20,7 @@ typedef struct {
 
 AnalysisData createAnalysisData(const GameState *gameState);
 
-void freeAnalysisData(AnalysisData *);
+void freeAnalysisData(const AnalysisData *);
 
 bool isActivePlayerInCheck(const AnalysisData *analysisData);
 

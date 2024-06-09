@@ -15,6 +15,6 @@ typedef uint_least64_t SquareMask;
 
 void *getMem(size_t required);
 
-void freeMem(void *p);
+void freeMem(const void *p);
 
 #endif /* EngCommon_h */

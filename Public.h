@@ -10,6 +10,17 @@
 
 #include <stdbool.h>
 
+typedef enum  {
+    NoResult,
+    WinByCheckMate,
+    WinByResignation,
+    WinOnTime,
+    DrawByStalemate,
+    DrawByRepetition,
+    DrawBy50MoveRule,
+    DrawByAgreement
+} EngGameResult;
+
 typedef enum {
     White = 0,
     Black,
@@ -61,32 +72,7 @@ typedef struct {
 
 typedef bool (*ProgressCallback)(EngAnalysisProgress);
 
-typedef struct {
-    struct GameState *handle;
-} EngGameState;
-
-
-
 extern const EngSquare EngNoSquare;
-
-typedef struct {
-    EngPiece piece;
-    EngSquare source, target;
-} EngMovePart;
-
-typedef struct {
-    int partCount;
-    EngMovePart parts[2];
-    EngSquare epCapture;
-    bool isCheck;
-    bool isCheckmate;
-    bool isCapture;
-} EngMove;
-
-typedef struct EngMoveQueryResult {
-    struct EngMoveQueryResult *nextResult;
-    EngMove *moves;
-} EngMoveQueryResult;
 
 typedef struct {
     bool whiteCanCastleShort;
@@ -95,23 +81,85 @@ typedef struct {
     bool blackCanCastleLong;
 } EngCastlingFlags;
 
-EngPiece *engGetBoardPtr(EngGameStateDto *);
+typedef enum {
+    EngNone,
+    EngGameState,
+    EngMoveList,
+    EngMove
+} EngObjType;
 
-EngGameState *engCreateGameState(const EngGameStateDto *);
+typedef struct {
+    EngObjType type;
+    void *obj;
+} EngObj;
 
-void engFreeGameState(EngGameState *gameState);
+typedef struct {
+    EngSquare from, to;
+    EngPiece piece;
+} EngPieceMove;
 
-EngGameStateDto engGetGameStateDto(const EngGameState *gameState);
+void engObjFree(EngObj obj);
 
-EngMoveQueryResult *engFindMovesByFromAndTo(const EngGameState *gameState, EngSquare from, EngSquare to);
+/*=================================================
+ *  GameState accessors
+ =================================================*/
+EngObj engCreateGameState(void);
 
-EngMoveQueryResult *engFindMovesByPieceAndTo(const EngGameState *gameState, EngPieceType pieceType, EngSquare to);
+EngPiece getPieceAt(EngObj gameState, EngSquare square);
+void setPieceAt(EngObj gameState, EngSquare square, EngPiece piece);
 
-void engFreeMoveQueryResults(EngMoveQueryResult *firstResult);
+EngPlayer engGetPlayerToMove(EngObj gamestate);
+void engSetPlayerToMove(EngObj gameState, EngPlayer player);
 
-void engMakeMove(EngGameState *gameState, EngMove move);
+EngCastlingFlags engGetCastlingFlags(EngObj gameState);
+void engSetCastlingFlags(EngObj gameState, EngCastlingFlags castlingFlags);
 
-void retractLastMove(EngGameState *gameState);
+EngSquare engGetEpSquare(EngObj gameState);
+void engSetEpSquare(EngObj gameState, EngSquare square);
+
+EngMoveCounter engGetHalfMoveClock(EngObj gameState);
+void engSetHalfMoveClock(EngObj gameState, EngMoveCounter halfMoveClock);
+
+EngMoveCounter engGetMoveNumber(EngObj gameState);
+void engSetMoveNumber(EngObj gameState, EngMoveCounter moveNumber);
+
+EngGameResult engGetResult(EngObj gameState);
+
+bool engIsInCheck(EngObj gameState);
+
+/*=================================================
+ *  Move and move list management
+ =================================================*/
+EngObj engGetMoveByFromAndTo(EngObj gameState, EngSquare from, EngSquare to);
+
+EngObj engGetMovesByFrom(EngObj gameState, EngSquare from);
+
+int engGetMoveListSize(EngObj moveList);
+
+EngObj engGetMove(EngObj moveList, int index);
+
+EngObj engMakeMove(EngObj gameState, EngObj engMove);
+
+EngPieceMove engGetPrimaryMove(EngObj engMove);
+
+EngPieceMove engGetSecondaryMove(EngObj engMove);
+
+bool engIsCastles(EngObj engMove);
+
+bool engIsPromotion(EngObj engMove);
+
+EngSquare engGetEpSquare(EngObj engMove);
+
+/*=================================================
+ *  Miscellaneous functions
+ =================================================*/
+bool isWinForActivePlayer(EngGameResult result);
+
+bool isWinForPassivePlayer(EngGameResult result);
+
+bool isDraw(EngGameResult result);
+
+
 
 #endif /* Public_h */
 

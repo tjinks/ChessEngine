@@ -12,7 +12,7 @@
 #include "EngCommon.h"
 #include "BoardGeometry.h"
 
-static GameState *gsFreeList = NULL;
+static const GameState *gsFreeList = NULL;
 
 static const int HashFactor = 255;
 
@@ -75,7 +75,7 @@ static void updatePosition(GameState *gameState, Move move) {
 GameState *acquireGameState(void) {
     GameState *result;
     if (gsFreeList) {
-        result = gsFreeList;
+        result = (GameState *)gsFreeList;
         gsFreeList = gsFreeList->prev;
     } else {
         result = getMem(sizeof(GameState));
@@ -84,18 +84,18 @@ GameState *acquireGameState(void) {
     return result;
 }
 
-GameState *retractMove(GameState *gs) {
-    GameState *result = gs->prev;
+const GameState *retractMove(const GameState *gs) {
+    const GameState *result = gs->prev;
     releaseGameState(gs);
     return result;
 }
 
-void releaseGameState(GameState *gs) {
-    gs->prev = gsFreeList;
+void releaseGameState(const GameState *gs) {
+    ((GameState *)gs)->prev = gsFreeList;
     gsFreeList = gs;
 }
 
-GameState *makeMove(GameState *initialState, Move move) {
+const GameState *makeMove(const GameState *initialState, Move move) {
     GameState *result = acquireGameState();
     *result = *initialState;
     updatePosition(result, move);
@@ -119,3 +119,11 @@ void generateHash(Position *position) {
     
     position->hash = hash;
 }
+
+GameState *duplicateGameState(const GameState *gameState) {
+    GameState *result = getMem(sizeof(GameState));
+    *result = *gameState;
+    result->prev = NULL;
+    return result;
+}
+

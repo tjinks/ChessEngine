@@ -29,21 +29,21 @@ typedef struct {
 } Position;
 
 typedef struct GameState {
-    struct GameState *prev;
+    const struct GameState *prev;
     Position position;
     int halfMoveClock;
     int moveNumber;
-    //MoveList *activeMoves;
-    //MoveList *passiveMoves;
 } GameState;
 
 GameState *acquireGameState(void);
 
-GameState *makeMove(GameState *initialState, Move move);
+GameState *duplicateGameState(const GameState *gameState);
 
-void releaseGameState(GameState *gameState);
+const GameState *makeMove(const GameState *initialState, Move move);
 
-GameState *retractMove(GameState *gameState);
+void releaseGameState(const GameState *gameState);
+
+const GameState *retractMove(const GameState *gameState);
 
 void generateHash(Position *position);
 

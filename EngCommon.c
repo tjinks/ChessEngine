@@ -19,7 +19,7 @@ void *getMem(size_t required) {
     exit(1);
 }
 
-void freeMem(void *p) {
-    free(p);
+void freeMem(const void *p) {
+    free((void *)p);
 }
 

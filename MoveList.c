@@ -9,6 +9,8 @@
 #include <string.h>
 #include "MoveList.h"
 #include "EngCommon.h"
+#include "GameState.h"
+#include "AnalysisData.h"
 
 static const size_t MovesOffset =  offsetof(MoveList, moves);
 static const size_t MoveSize = sizeof(Move);
@@ -76,9 +78,30 @@ bool containsTargets(const MoveList *moveList, SquareMask targets) {
     return false;
 }
 
-void releaseMoveList(MoveList *moveList) {
-    moveList->next = mlFreeList;
-    mlFreeList = moveList;
+void releaseMoveList(const MoveList *moveList) {
+    MoveList *ml = (MoveList *)moveList;
+    ml->next = mlFreeList;
+    mlFreeList = ml;
+}
+
+MoveList *duplicateMoveList(const MoveList *moveList) {
+    MoveList *result = acquireMoveList();
+    for (int i = 0; i < moveList->size; i++) {
+        addMove(result, moveList->moves[i]);
+    }
+    
+    return result;
+}
+
+MoveList *filterMoveList(MoveList *moveList, bool (*filterFunc)(Move, const void *), const void *filterData) {
+    MoveList *result = acquireMoveList();
+    for (int i = 0; i < moveList->size; i++) {
+        if (filterFunc(moveList->moves[i], filterData)) {
+            addMove(result, moveList->moves[i]);
+        }
+    }
+            
+    return result;
 }
 
 
