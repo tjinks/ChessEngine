@@ -45,6 +45,6 @@ void releaseGameState(const GameState *gameState);
 
 const GameState *retractMove(const GameState *gameState);
 
-void generateHash(Position *position);
+void calculateHash(Position *position);
 
 #endif /* EngPosition_h */

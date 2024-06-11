@@ -107,7 +107,7 @@ const GameState *makeMove(const GameState *initialState, Move move) {
     return result;
 }
 
-void generateHash(Position *position) {
+void calculateHash(Position *position) {
     int hash = 0;
     for (int square = 0; square < 64; square++) {
         hash += HashFactor * (square + 1) * position->board[square];

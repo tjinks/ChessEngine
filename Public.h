@@ -9,6 +9,9 @@
 #define Public_h
 
 #include <stdbool.h>
+#include <stdint.h>
+
+typedef uint_least64_t EngSquareMask;
 
 typedef enum  {
     NoResult,
@@ -84,8 +87,6 @@ typedef struct {
 typedef enum {
     EngNone,
     EngGameState,
-    EngMoveList,
-    EngMove
 } EngObjType;
 
 typedef struct {
@@ -98,57 +99,56 @@ typedef struct {
     EngPiece piece;
 } EngPieceMove;
 
-void engObjFree(EngObj obj);
+typedef struct EngMove {
+    struct EngMove *nextMove;
+    EngPieceMove primary;
+    EngPieceMove secondary;
+    EngSquare epCaptureSquare;
+    EngPiece promoteTo;
+} EngMove;
+
+typedef struct {
+    EngMove *firstMove;
+} EngMoveList;
+
+typedef struct {
+    EngPiece *board;
+    EngPlayer playerToMove;
+    bool whiteCanCastleLong, whiteCanCastleShort, blackCanCastleLong, blackCanCastleShort;
+    EngSquare epSquare;
+    EngMoveCounter halfMoveClock;
+    EngMoveCounter moveNumber;
+} EngPosition;
+
+struct EngGame;
 
 /*=================================================
- *  GameState accessors
+ *  Position setup and access
  =================================================*/
-EngObj engCreateGameState(void);
+EngPosition *engCreatePosition(void);
 
-EngPiece getPieceAt(EngObj gameState, EngSquare square);
-void setPieceAt(EngObj gameState, EngSquare square, EngPiece piece);
+void engFreePosition(const EngPosition *position);
 
-EngPlayer engGetPlayerToMove(EngObj gamestate);
-void engSetPlayerToMove(EngObj gameState, EngPlayer player);
+struct EngGame *engStartGame(const EngPosition *position);
 
-EngCastlingFlags engGetCastlingFlags(EngObj gameState);
-void engSetCastlingFlags(EngObj gameState, EngCastlingFlags castlingFlags);
+EngPosition *engGetCurrentPosition(const struct EngGame *game);
 
-EngSquare engGetEpSquare(EngObj gameState);
-void engSetEpSquare(EngObj gameState, EngSquare square);
+void engFreeGame(const struct EngGame *game);
 
-EngMoveCounter engGetHalfMoveClock(EngObj gameState);
-void engSetHalfMoveClock(EngObj gameState, EngMoveCounter halfMoveClock);
-
-EngMoveCounter engGetMoveNumber(EngObj gameState);
-void engSetMoveNumber(EngObj gameState, EngMoveCounter moveNumber);
-
-EngGameResult engGetResult(EngObj gameState);
-
-bool engIsInCheck(EngObj gameState);
+bool engIsCheck(const struct EngGame *game);
 
 /*=================================================
  *  Move and move list management
  =================================================*/
-EngObj engGetMoveByFromAndTo(EngObj gameState, EngSquare from, EngSquare to);
+EngMoveList *engGetMovesByFromAndTo(struct EngGame *game, EngSquare from, EngSquare to);
 
-EngObj engGetMovesByFrom(EngObj gameState, EngSquare from);
+void engFreeMoveList(const EngMoveList *moveList);
 
-int engGetMoveListSize(EngObj moveList);
+EngSquareMask engGetTargets(struct EngGame *game, EngSquare from);
 
-EngObj engGetMove(EngObj moveList, int index);
+struct EngGame *engMakeMove(const EngMove *move);
 
-EngObj engMakeMove(EngObj gameState, EngObj engMove);
-
-EngPieceMove engGetPrimaryMove(EngObj engMove);
-
-EngPieceMove engGetSecondaryMove(EngObj engMove);
-
-bool engIsCastles(EngObj engMove);
-
-bool engIsPromotion(EngObj engMove);
-
-EngSquare engGetEpSquare(EngObj engMove);
+bool engIsCastles(const EngMove *engMove);
 
 /*=================================================
  *  Miscellaneous functions

@@ -10,8 +10,9 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include "Public.h"
 
-typedef uint_least64_t SquareMask;
+typedef EngSquareMask SquareMask;
 
 void *getMem(size_t required);
 

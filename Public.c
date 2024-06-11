@@ -15,142 +15,118 @@
 
 const EngSquare EngNoSquare = NoSquare;
 
-typedef struct {
-    Move move;
-    GameState *gameState;
-} MoveWrapper;
+typedef struct EngGame {
+    const GameState *gameState;
+} EngGame;
 
 typedef struct {
-    MoveList *moveList;
-    GameState *gameState;
-} MoveListWrapper;
+    EngPosition position;
+    Piece board[64];
+} EngPositionWrapper;
 
-static void fatalError(const char *msg) {
-    fprintf(stderr, "%s\n", msg);
-    exit(1);
-}
+typedef struct {
+    EngMove move;
+    int index;
+    EngGame *game;
+} EngMoveWrapper;
 
-static EngObj handleInvalidType(EngObj obj, const char *funcName) {
-    char errorMsg[100];
-    static const EngObj result = {EngNone, NULL};
-    sprintf(errorMsg, "Invalid object type %d passed to %s", (int)obj.type, funcName);
-    return result;
-}
-
-static void *verifyType(EngObj obj, EngObjType expected, const char *funcName) {
-    if (obj.type == expected) {
-        return obj.obj;
-    }
-    
-    handleInvalidType(obj, funcName);
-    return NULL;
-}
-
-#define VERIFY_TYPE(obj, expected) (verifyType((obj), (expected), __func__))
-
-void engObjFree(EngObj obj) {
-    switch (obj.type) {
-        case EngGameState:
-            releaseGameState(obj.obj);
-            break;
-        case EngMoveList:
-            releaseMoveList(obj.obj);
-            break;
-        case EngMove:
-            freeMem(obj.obj);
-            break;
-        default:
-            handleInvalidType(obj, __func__);
-    }
-}
+static const Piece initialPosition[] = {
+    WhiteRook, WhiteKnight, WhiteBishop, WhiteQueen, WhiteKing, WhiteBishop, WhiteKnight, WhiteRook,
+    WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn, WhitePawn,
+    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
+    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
+    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
+    NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece, NoPiece,
+    BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn, BlackPawn,
+    BlackRook, BlackKnight, BlackBishop, BlackQueen, BlackKing, BlackBishop, BlackKnight, BlackRook
+};
 
 /*=================================================
- *  GameState accessors
+ *  Position setup and access
  =================================================*/
-EngObj engCreateGameState(void) {
-    EngObj result = {EngGameState, acquireGameState()};
+EngPosition *engCreatePosition(void) {
+    EngPositionWrapper *result = getMem(sizeof(EngPositionWrapper));
+    memcpy(result->board, initialPosition, 64 * sizeof(Piece));
+    EngPosition *position = &result->position;
+    position->blackCanCastleLong = true;
+    position->blackCanCastleShort = true;
+    position->whiteCanCastleLong = true;
+    position->whiteCanCastleShort = true;
+    position->epSquare = NoSquare;
+    position->playerToMove = White;
+    position->halfMoveClock = 100;
+    position->moveNumber = 1;
+    position->board = result->board;
+    return position;
+}
+
+void engFreePosition(const EngPosition *position) {
+    freeMem(position);
+}
+
+struct EngGame *engStartGame(const EngPosition *engPosition) {
+    GameState *gameState = getMem(sizeof(GameState));
+    Position *position = &gameState->position;
+    memcpy(position->board, engPosition->board, 64 * sizeof(Piece));
+    position->epSquare = engPosition->epSquare;
+    position->playerToMove = engPosition->playerToMove;
+    
+    position->castlingFlags = 0;
+    if (engPosition->blackCanCastleLong) position->castlingFlags |= BlackLong;
+    if (engPosition->blackCanCastleShort) position->castlingFlags |= BlackShort;
+    if (engPosition->whiteCanCastleLong) position->castlingFlags |= WhiteLong;
+    if (engPosition->whiteCanCastleShort) position->castlingFlags |= WhiteShort;
+    gameState->halfMoveClock = engPosition->halfMoveClock;
+    gameState->moveNumber = engPosition->moveNumber;
+    position->kingSquare[White] = position->kingSquare[Black] = NoSquare;
+    
+    for (int i = 0; i < 64; i++) {
+        if (position->board[i] == WhiteKing) position->kingSquare[White] = i;
+        if (position->board[i] == BlackKing) position->kingSquare[Black] = i;
+    }
+    
+    calculateHash(position);
+    
+    EngGame *result = getMem(sizeof(EngGame));
+    result->gameState = gameState;
     return result;
 }
 
-EngPiece getPieceAt(EngObj gameState, EngSquare square) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    return gs->position.board[square];
+EngPosition *engGetCurrentPosition(const struct EngGame *game) {
+    const GameState *gameState = game->gameState;
+    EngPositionWrapper *result = getMem(sizeof(EngPositionWrapper));
+    result->position.board = result->board;
+    const Position *position = &gameState->position;
+    memcpy(result->board, position->board, 64 * sizeof(Piece));
+    CastlingFlags castlingFlags = position->castlingFlags;
+    result->position.blackCanCastleLong = (castlingFlags & BlackLong) != 0;
+    result->position.whiteCanCastleLong = (castlingFlags & WhiteLong) != 0;
+    result->position.blackCanCastleShort = (castlingFlags & BlackShort) != 0;
+    result->position.whiteCanCastleShort = (castlingFlags & WhiteShort) != 0;
+    result->position.epSquare = position->epSquare;
+    result->position.playerToMove = position->playerToMove;
+    result->position.halfMoveClock = gameState->halfMoveClock;
+    result->position.moveNumber = gameState->moveNumber;
+    return &result->position;
 }
 
-void setPieceAt(EngObj gameState, EngSquare square, EngPiece piece) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    gs->position.board[square] = piece;
+void engFreeGame(const struct EngGame *game) {
+    freeMem(game->gameState);
+    freeMem(game);
 }
 
-EngPlayer engGetPlayerToMove(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    return gs->position.playerToMove;
-}
-
-void engSetPlayerToMove(EngObj gameState, EngPlayer player) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    gs->position.playerToMove = player;
-}
-
-EngCastlingFlags engGetCastlingFlags(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    CastlingFlags castlingFlags = gs->position.castlingFlags;
-    EngCastlingFlags result;
-    result.blackCanCastleLong = (castlingFlags & BlackLong) != 0;
-    result.blackCanCastleShort = (castlingFlags & BlackShort) != 0;
-    result.whiteCanCastleLong = (castlingFlags & WhiteLong) != 0;
-    result.whiteCanCastleShort = (castlingFlags & WhiteShort) != 0;
-    return result;
-}
-
-void engSetCastlingFlags(EngObj gameState, EngCastlingFlags castlingFlags) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    CastlingFlags cf = 0;
-    if (castlingFlags.blackCanCastleLong) cf |= BlackLong;
-    if (castlingFlags.blackCanCastleShort) cf |= BlackShort;
-    if (castlingFlags.whiteCanCastleLong) cf |= WhiteLong;
-    if (castlingFlags.whiteCanCastleShort) cf |= WhiteShort;
-    gs->position.castlingFlags = cf;
-}
-
-EngSquare engGetEpSquare(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    return gs->position.epSquare;
-}
-
-void engSetEpSquare(EngObj gameState, EngSquare square) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    gs->position.epSquare = square;
-}
-
-EngMoveCounter engGetHalfMoveClock(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    return gs->halfMoveClock;
-}
-
-void engSetHalfMoveClock(EngObj gameState, EngMoveCounter halfMoveClock) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    gs->halfMoveClock = halfMoveClock;
-}
-
-EngMoveCounter engGetMoveNumber(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    return gs->moveNumber;
-}
-
-void engSetMoveNumber(EngObj gameState, EngMoveCounter moveNumber) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    gs->moveNumber = moveNumber;
-}
-
-EngGameResult engGetResult(EngObj gameState) {
-    return NoResult;
-}
-
-bool engIsInCheck(EngObj gameState) {
-    GameState *gs = VERIFY_TYPE(gameState, EngGameState);
-    AnalysisData analysisData = createAnalysisData(gs);
-    bool result = isActivePlayerInCheck(&analysisData);
+bool engIsCheck(const struct EngGame *game) {
+    AnalysisData analysisData = createAnalysisData(game->gameState);
+    bool result = false;
+    const Position *position = &game->gameState->position;
+    int target = position->kingSquare[position->playerToMove];
+    for (int i = 0; i < analysisData.passivePlayerMoves->size && !result; i++) {
+        Move move = analysisData.passivePlayerMoves->moves[i];
+        if (move.atoms[1].square == target) {
+            result = true;
+        }
+    }
+    
     freeAnalysisData(&analysisData);
     return result;
 }
@@ -158,35 +134,124 @@ bool engIsInCheck(EngObj gameState) {
 /*=================================================
  *  Move and move list management
  =================================================*/
-EngObj engGetMoveByFromAndTo(EngObj gameState, EngSquare from, EngSquare to) {
-    AnalysisData analysisData = createAnalysisData(VERIFY_TYPE(gameState, EngGameState));
-    MoveList *moveList = duplicateMoveList(analysisData.activePlayerMoves);
-    
-    MoveListWrapper *moveListWrapper = getMem(sizeof(MoveListWrapper));
-    moveListWrapper->gameState = duplicateGameState(analysisData.gameState);
-    moveListWrapper->moveList = duplicateMoveList(analysisData.activePlayerMoves);
+static bool legalMoveFilter(Move move, const void *filterData) {
+    const GameState *gameState = filterData;
+    AnalysisData analysisData = createAnalysisData(gameState);
+    bool result = !isPassivePlayerInCheck(&analysisData);
     freeAnalysisData(&analysisData);
-    EngObj result = {EngMoveList, moveListWrapper};
     return result;
 }
 
-EngObj engGetMovesByFrom(EngObj gameState, EngSquare from);
+static bool fromFilter(Move move, const void *filterData) {
+    int from = *((int *)filterData);
+    return move.atoms[0].square == from;
+}
 
-int engGetMoveListSize(EngObj moveList);
+struct FromAndTo {
+    int from, to;
+};
 
-EngObj engGetMove(EngObj moveList, int index);
+static bool fromAndToFilter(Move move, const void *filterData) {
+    const struct FromAndTo *fromAndTo = filterData;
+    return move.atoms[0].square == fromAndTo->from && move.atoms[1].square == fromAndTo->to;
+}
 
-EngObj engMakeMove(EngObj gameState, EngObj move);
+static EngMoveWrapper *createEngMoveWrapper(EngGame *game, Move move, int index) {
+    EngMoveWrapper *result = getMem(sizeof(EngMoveWrapper));
+    EngMove *engMove = &result->move;
+    const Position *position = &game->gameState->position;
+    engMove->primary.from = move.atoms[0].square;
+    engMove->primary.to = move.atoms[1].square;
+    engMove->primary.piece = position->board[engMove->primary.from];
+    
+    if (move.atomCount == 4) {
+        engMove->secondary.from = move.atoms[2].square;
+        engMove->secondary.to = move.atoms[3].square;
+        engMove->secondary.piece = position->board[engMove->secondary.from];
+    } else {
+        engMove->secondary.from = NoSquare;
+        engMove->secondary.to = NoSquare;
+        engMove->secondary.piece = NoPiece;
+    }
+    
+    if (move.atomCount == 3) {
+        engMove->epCaptureSquare = move.atoms[2].square;
+    } else {
+        engMove->epCaptureSquare = NoSquare;
+    }
+    
+    engMove->promoteTo = move.promoteTo;
+    
+    result->index = index;
+    result->game = game;
+    return result;
+}
 
-EngPieceMove engGetPrimaryMove(EngObj engMove);
+static EngMoveList *moveListToEngMoveList(EngGame *game, const MoveList *moveList) {
+    EngMoveList *result = getMem(sizeof(EngMoveList));
+    result->firstMove = NULL;
+    for (int i = 0; i < moveList->size; i++) {
+        EngMoveWrapper *wrapper = createEngMoveWrapper(game, moveList->moves[i], i);
+        EngMove *engMove = &wrapper->move;
+        engMove->nextMove = result->firstMove;
+        result->firstMove = engMove;
+    }
+    
+    return result;
+}
 
-EngPieceMove engGetSecondaryMove(EngObj engMove);
+EngMoveList *engGetMovesByFromAndTo(struct EngGame *game, EngSquare from, EngSquare to) {
+    AnalysisData analysisData = createAnalysisData(game->gameState);
+    MoveList *legalMoves = filterMoveList(analysisData.activePlayerMoves, legalMoveFilter, game->gameState);
+    struct FromAndTo fromAndTo = {from, to};
+    MoveList *requiredMoves = filterMoveList(legalMoves, fromAndToFilter, &fromAndTo);
+    EngMoveList *result = moveListToEngMoveList(game, requiredMoves);
+    releaseMoveList(legalMoves);
+    releaseMoveList(requiredMoves);
+    freeAnalysisData(&analysisData);
+    return result;
+}
 
-bool engIsCastles(EngObj engMove);
+void engFreeMoveList(const EngMoveList *moveList) {
+    EngMove *currentMove = moveList->firstMove;
+    while (currentMove) {
+        EngMove *nextMove = currentMove->nextMove;
+        freeMem(currentMove);
+        currentMove = nextMove;
+    }
+    
+    freeMem(moveList);
+}
 
-bool engIsPromotion(EngObj engMove);
+EngSquareMask engGetTargets(struct EngGame *game, EngSquare from) {
+    AnalysisData analysisData = createAnalysisData(game->gameState);
+    MoveList *legalMoves = filterMoveList(analysisData.activePlayerMoves, legalMoveFilter, game->gameState);
+    MoveList *requiredMoves = filterMoveList(legalMoves, fromFilter, &from);
+    EngSquareMask result = 0;
+    for (int i = 0; i < requiredMoves->size; i++) {
+        Move move = requiredMoves->moves[i];
+        int to = move.atoms[1].square;
+        result |= ((SquareMask)1 << to);
+    }
+    
+    releaseMoveList(legalMoves);
+    releaseMoveList(requiredMoves);
+    freeAnalysisData(&analysisData);
+    return result;
+}
 
-EngSquare engGetEpSquare(EngObj engMove);
+EngGame *engMakeMove(const EngMove *engMove) {
+    const EngMoveWrapper *wrapper = (const EngMoveWrapper *)engMove;
+    const GameState *gameState = wrapper->game->gameState;
+    AnalysisData analysisData = createAnalysisData(gameState);
+    Move move = analysisData.activePlayerMoves->moves[wrapper->index];
+    wrapper->game->gameState = makeMove(gameState, move);
+    return wrapper->game;
+}
+
+bool engIsCastles(const EngMove *engMove) {
+    return engMove->secondary.piece != NoPiece;
+}
 
 /*=================================================
  *  Miscellaneous functions
@@ -196,5 +261,6 @@ bool isWinForActivePlayer(EngGameResult result);
 bool isWinForPassivePlayer(EngGameResult result);
 
 bool isDraw(EngGameResult result);
+
 
 

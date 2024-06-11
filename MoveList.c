@@ -10,7 +10,6 @@
 #include "MoveList.h"
 #include "EngCommon.h"
 #include "GameState.h"
-#include "AnalysisData.h"
 
 static const size_t MovesOffset =  offsetof(MoveList, moves);
 static const size_t MoveSize = sizeof(Move);
@@ -41,6 +40,7 @@ MoveList *acquireMoveList(void) {
         MoveList *result = mlFreeList;
         mlFreeList = mlFreeList->next;
         result->size = 0;
+        result->next = NULL;
         return result;
     } else {
         return createMoveList();
