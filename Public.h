@@ -78,23 +78,6 @@ typedef bool (*ProgressCallback)(EngAnalysisProgress);
 extern const EngSquare EngNoSquare;
 
 typedef struct {
-    bool whiteCanCastleShort;
-    bool whiteCanCastleLong;
-    bool blackCanCastleShort;
-    bool blackCanCastleLong;
-} EngCastlingFlags;
-
-typedef enum {
-    EngNone,
-    EngGameState,
-} EngObjType;
-
-typedef struct {
-    EngObjType type;
-    void *obj;
-} EngObj;
-
-typedef struct {
     EngSquare from, to;
     EngPiece piece;
 } EngPieceMove;
@@ -149,6 +132,11 @@ EngSquareMask engGetTargets(struct EngGame *game, EngSquare from);
 struct EngGame *engMakeMove(const EngMove *move);
 
 bool engIsCastles(const EngMove *engMove);
+
+/*=================================================
+ *  Chess notation support (see Notation.c)
+ =================================================*/
+EngPosition *engParseFen(const char *fen, void (*errorCallback)(const char *message));
 
 /*=================================================
  *  Miscellaneous functions
