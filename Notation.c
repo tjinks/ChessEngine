@@ -201,7 +201,7 @@ static int parseSquare(const char *square) {
     }
     
     int file = (int)square[0] - (int)'a';
-    int rank = (int)square[1] - (int)'1	';
+    int rank = (int)square[1] - (int)'1';
     if (file < 0 || file > 7 || rank < 0 || rank > 7) {
         return EngNoSquare;
     }

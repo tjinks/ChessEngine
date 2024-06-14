@@ -28,13 +28,12 @@
 		EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5D55362BFF996800F1BFB8 /* MoveListTests.m */; };
 		EA86DAB62C1AEAC000833D7F /* Notation.c in Sources */ = {isa = PBXBuildFile; fileRef = EA86DAB42C1AEAC000833D7F /* Notation.c */; };
 		EA86DAB92C1B26F600833D7F /* NotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA86DAB82C1B26F600833D7F /* NotationTests.m */; };
+		EA86DABB2C1C602300833D7F /* PublicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA86DABA2C1C602300833D7F /* PublicTests.m */; };
 		EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC22C04B4DE00211C61 /* TestSupport.c */; };
 		EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC42C06120300211C61 /* MoveGeneratorTests.m */; };
 		EA897BC82C0A15DC00211C61 /* Evaluation.h in Headers */ = {isa = PBXBuildFile; fileRef = EA897BC62C0A15DC00211C61 /* Evaluation.h */; };
 		EA897BC92C0A15DC00211C61 /* Evaluation.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BC72C0A15DC00211C61 /* Evaluation.c */; };
-		EA897BD02C0A4D2300211C61 /* AnalysisData.h in Headers */ = {isa = PBXBuildFile; fileRef = EA897BCE2C0A4D2300211C61 /* AnalysisData.h */; };
-		EA897BD12C0A4D2300211C61 /* AnalysisData.c in Sources */ = {isa = PBXBuildFile; fileRef = EA897BCF2C0A4D2300211C61 /* AnalysisData.c */; };
-		EA897BD32C0C790900211C61 /* AnalysisDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BD22C0C790900211C61 /* AnalysisDataTests.m */; };
+		EA897BD32C0C790900211C61 /* GameStateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA897BD22C0C790900211C61 /* GameStateTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,14 +78,13 @@
 		EA5D55362BFF996800F1BFB8 /* MoveListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveListTests.m; sourceTree = "<group>"; };
 		EA86DAB42C1AEAC000833D7F /* Notation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Notation.c; sourceTree = "<group>"; };
 		EA86DAB82C1B26F600833D7F /* NotationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotationTests.m; sourceTree = "<group>"; };
+		EA86DABA2C1C602300833D7F /* PublicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublicTests.m; sourceTree = "<group>"; };
 		EA897BC12C04B4DE00211C61 /* TestSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestSupport.h; sourceTree = "<group>"; };
 		EA897BC22C04B4DE00211C61 /* TestSupport.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = TestSupport.c; sourceTree = "<group>"; };
 		EA897BC42C06120300211C61 /* MoveGeneratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveGeneratorTests.m; sourceTree = "<group>"; };
 		EA897BC62C0A15DC00211C61 /* Evaluation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Evaluation.h; sourceTree = "<group>"; };
 		EA897BC72C0A15DC00211C61 /* Evaluation.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Evaluation.c; sourceTree = "<group>"; };
-		EA897BCE2C0A4D2300211C61 /* AnalysisData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalysisData.h; sourceTree = "<group>"; };
-		EA897BCF2C0A4D2300211C61 /* AnalysisData.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AnalysisData.c; sourceTree = "<group>"; };
-		EA897BD22C0C790900211C61 /* AnalysisDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalysisDataTests.m; sourceTree = "<group>"; };
+		EA897BD22C0C790900211C61 /* GameStateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameStateTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				EA86DAB42C1AEAC000833D7F /* Notation.c */,
-				EA897BCE2C0A4D2300211C61 /* AnalysisData.h */,
-				EA897BCF2C0A4D2300211C61 /* AnalysisData.c */,
 				EA897BC62C0A15DC00211C61 /* Evaluation.h */,
 				EA897BC72C0A15DC00211C61 /* Evaluation.c */,
 				EA5D55322BFF451800F1BFB8 /* MoveList.h */,
@@ -156,8 +152,9 @@
 				EA897BC12C04B4DE00211C61 /* TestSupport.h */,
 				EA897BC22C04B4DE00211C61 /* TestSupport.c */,
 				EA897BC42C06120300211C61 /* MoveGeneratorTests.m */,
-				EA897BD22C0C790900211C61 /* AnalysisDataTests.m */,
+				EA897BD22C0C790900211C61 /* GameStateTests.m */,
 				EA86DAB82C1B26F600833D7F /* NotationTests.m */,
+				EA86DABA2C1C602300833D7F /* PublicTests.m */,
 			);
 			path = ChessEngineTests;
 			sourceTree = "<group>";
@@ -177,7 +174,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA897BD02C0A4D2300211C61 /* AnalysisData.h in Headers */,
 				EA5D54F52BFCE3F200F1BFB8 /* MoveGenerator.h in Headers */,
 				EA5D54F42BFCE3F200F1BFB8 /* Move.h in Headers */,
 				EA897BC82C0A15DC00211C61 /* Evaluation.h in Headers */,
@@ -295,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5D552A2BFD0F5C00F1BFB8 /* Public.c in Sources */,
-				EA897BD12C0A4D2300211C61 /* AnalysisData.c in Sources */,
 				EA86DAB62C1AEAC000833D7F /* Notation.c in Sources */,
 				EA5D54F12BFCE3F200F1BFB8 /* GameState.c in Sources */,
 				EA5D552F2BFF241B00F1BFB8 /* BoardGeometry.c in Sources */,
@@ -314,9 +309,10 @@
 			files = (
 				EA897BC52C06120300211C61 /* MoveGeneratorTests.m in Sources */,
 				EA5D55092BFCE9C800F1BFB8 /* PieceTests.m in Sources */,
+				EA86DABB2C1C602300833D7F /* PublicTests.m in Sources */,
 				EA86DAB92C1B26F600833D7F /* NotationTests.m in Sources */,
 				EA5D55312BFF368100F1BFB8 /* BoardGeometryTests.m in Sources */,
-				EA897BD32C0C790900211C61 /* AnalysisDataTests.m in Sources */,
+				EA897BD32C0C790900211C61 /* GameStateTests.m in Sources */,
 				EA5D55372BFF996800F1BFB8 /* MoveListTests.m in Sources */,
 				EA897BC32C04B4DE00211C61 /* TestSupport.c in Sources */,
 			);

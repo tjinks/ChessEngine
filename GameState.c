@@ -11,10 +11,11 @@
 #include "Move.h"
 #include "EngCommon.h"
 #include "BoardGeometry.h"
+#include "MoveGenerator.h"
 
 static const GameState *gsFreeList = NULL;
 
-static const int HashFactor = 255;
+static const int HashFactor = 255 * 2;
 
 static void updatePosition(GameState *gameState, Move move) {
     Position *position = &gameState->position;
@@ -34,6 +35,10 @@ static void updatePosition(GameState *gameState, Move move) {
             case 1:
                 if (originalContents != NoPiece) {
                     restartClock = true;
+                }
+                
+                if (getPieceType(newContents) == King) {
+                    position->kingSquare[position->playerToMove] = square;
                 }
                 
                 break;
@@ -67,9 +72,48 @@ static void updatePosition(GameState *gameState, Move move) {
         }
     }
     
-    position->hash = -hash;
+    position->hash ^= 1;
+    position->playerToMove ^= (White ^ Black);
     position->epSquare = move.epSquare;
     gameState->halfMoveClock = restartClock ? 100 : gameState->halfMoveClock - 1;
+}
+
+static void populateMoveLists(GameState *gameState) {
+    const Position *position = &gameState->position;
+    Player playerToMove = position->playerToMove;
+    MoveGenerator activePlayerMoveGenerator, passivePlayerMoveGenerator;
+    initMoveGenerator(&activePlayerMoveGenerator, position, playerToMove);
+    initMoveGenerator(&passivePlayerMoveGenerator, position, getOpponent(playerToMove));
+    
+    addNonCastlingMoves(&activePlayerMoveGenerator);
+    addNonCastlingMoves(&passivePlayerMoveGenerator);
+    addCastlingMoves(&activePlayerMoveGenerator, passivePlayerMoveGenerator.moveList);
+    addCastlingMoves(&activePlayerMoveGenerator, activePlayerMoveGenerator.moveList);
+    
+    gameState->activePlayerMoves = activePlayerMoveGenerator.moveList;
+    gameState->passivePlayerMoves = passivePlayerMoveGenerator.moveList;
+}
+
+static bool isInCheck(GameState *gameState, bool activePlayer) {
+    Player playerToMove = gameState->position.playerToMove;
+    Player player = activePlayer ? playerToMove : getOpponent(playerToMove);
+    int kingSquare = gameState->position.kingSquare[player];
+    const MoveList *moveList;
+    if (player == playerToMove) {
+        moveList = getPassivePlayerMoves(gameState);
+    } else {
+        moveList = getActivePlayerMoves(gameState);
+    }
+    
+    return containsTargets(moveList, ((SquareMask)1 << kingSquare));
+}
+
+bool isActivePlayerInCheck(GameState *gameState) {
+    return isInCheck(gameState, true);
+}
+
+bool isPassivePlayerInCheck(GameState *gameState) {
+    return isInCheck(gameState, false);
 }
 
 GameState *acquireGameState(void) {
@@ -81,11 +125,15 @@ GameState *acquireGameState(void) {
         result = getMem(sizeof(GameState));
     }
 
+    result->activePlayerMoves = NULL;
+    result->passivePlayerMoves = NULL;
     return result;
 }
 
 const GameState *retractMove(const GameState *gs) {
     const GameState *result = gs->prev;
+    if (gs->activePlayerMoves) releaseMoveList(gs->activePlayerMoves);
+    if (gs->passivePlayerMoves) releaseMoveList(gs->passivePlayerMoves);
     releaseGameState(gs);
     return result;
 }
@@ -95,9 +143,11 @@ void releaseGameState(const GameState *gs) {
     gsFreeList = gs;
 }
 
-const GameState *makeMove(const GameState *initialState, Move move) {
+GameState *makeMove(const GameState *initialState, Move move) {
     GameState *result = acquireGameState();
-    *result = *initialState;
+    result->position = initialState->position;
+    result->halfMoveClock = initialState->halfMoveClock;
+    result->moveNumber = initialState->moveNumber;
     updatePosition(result, move);
     if (result->position.playerToMove == White) {
         result->moveNumber++;
@@ -114,16 +164,27 @@ void calculateHash(Position *position) {
     }
     
     if (position->playerToMove == Black) {
-        hash = -hash;
+        hash += 1;
     }
     
     position->hash = hash;
 }
 
-GameState *duplicateGameState(const GameState *gameState) {
-    GameState *result = getMem(sizeof(GameState));
-    *result = *gameState;
-    result->prev = NULL;
-    return result;
+const MoveList *getActivePlayerMoves(GameState *gameState) {
+    if (gameState->activePlayerMoves == NULL) {
+        populateMoveLists(gameState);
+    }
+    
+    return gameState->activePlayerMoves;
 }
+
+const MoveList *getPassivePlayerMoves(GameState *gameState) {
+    if (gameState->passivePlayerMoves == NULL) {
+        populateMoveLists(gameState);
+    }
+    
+    return gameState->passivePlayerMoves;
+}
+
+
 

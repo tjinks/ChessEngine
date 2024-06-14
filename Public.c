@@ -11,13 +11,8 @@
 #include "EngCommon.h"
 #include "BoardGeometry.h"
 #include "GameState.h"
-#include "AnalysisData.h"
 
 const EngSquare EngNoSquare = NoSquare;
-
-typedef struct EngGame {
-    const GameState *gameState;
-} EngGame;
 
 typedef struct {
     EngPosition position;
@@ -115,19 +110,18 @@ void engFreeGame(const struct EngGame *game) {
     freeMem(game);
 }
 
-bool engIsCheck(const struct EngGame *game) {
-    AnalysisData analysisData = createAnalysisData(game->gameState);
+bool engIsCheck(struct EngGame *game) {
     bool result = false;
     const Position *position = &game->gameState->position;
+    const MoveList *passivePlayerMoves = getPassivePlayerMoves(game->gameState);
     int target = position->kingSquare[position->playerToMove];
-    for (int i = 0; i < analysisData.passivePlayerMoves->size && !result; i++) {
-        Move move = analysisData.passivePlayerMoves->moves[i];
+    for (int i = 0; i < passivePlayerMoves->size && !result; i++) {
+        Move move = passivePlayerMoves->moves[i];
         if (move.atoms[1].square == target) {
             result = true;
         }
     }
     
-    freeAnalysisData(&analysisData);
     return result;
 }
 
@@ -136,9 +130,9 @@ bool engIsCheck(const struct EngGame *game) {
  =================================================*/
 static bool legalMoveFilter(Move move, const void *filterData) {
     const GameState *gameState = filterData;
-    AnalysisData analysisData = createAnalysisData(gameState);
-    bool result = !isPassivePlayerInCheck(&analysisData);
-    freeAnalysisData(&analysisData);
+    GameState *newState = makeMove(gameState, move);
+    bool result = !isPassivePlayerInCheck(newState);
+    retractMove(newState);
     return result;
 }
 
@@ -201,14 +195,14 @@ static EngMoveList *moveListToEngMoveList(EngGame *game, const MoveList *moveLis
 }
 
 EngMoveList *engGetMovesByFromAndTo(struct EngGame *game, EngSquare from, EngSquare to) {
-    AnalysisData analysisData = createAnalysisData(game->gameState);
-    MoveList *legalMoves = filterMoveList(analysisData.activePlayerMoves, legalMoveFilter, game->gameState);
+    GameState *gameState = game->gameState;
+    const MoveList *activePlayerMoves = getActivePlayerMoves(gameState);
+    MoveList *legalMoves = filterMoveList(activePlayerMoves, legalMoveFilter, game->gameState);
     struct FromAndTo fromAndTo = {from, to};
     MoveList *requiredMoves = filterMoveList(legalMoves, fromAndToFilter, &fromAndTo);
     EngMoveList *result = moveListToEngMoveList(game, requiredMoves);
     releaseMoveList(legalMoves);
     releaseMoveList(requiredMoves);
-    freeAnalysisData(&analysisData);
     return result;
 }
 
@@ -224,9 +218,9 @@ void engFreeMoveList(const EngMoveList *moveList) {
 }
 
 EngSquareMask engGetTargets(struct EngGame *game, EngSquare from) {
-    AnalysisData analysisData = createAnalysisData(game->gameState);
-    MoveList *legalMoves = filterMoveList(analysisData.activePlayerMoves, legalMoveFilter, game->gameState);
-    MoveList *requiredMoves = filterMoveList(legalMoves, fromFilter, &from);
+    const MoveList *activePlayerMoves = getActivePlayerMoves(game->gameState);
+    MoveList *filteredByFrom = filterMoveList(activePlayerMoves, fromFilter, &from);
+    MoveList *requiredMoves = filterMoveList(filteredByFrom, legalMoveFilter, game->gameState);
     EngSquareMask result = 0;
     for (int i = 0; i < requiredMoves->size; i++) {
         Move move = requiredMoves->moves[i];
@@ -234,18 +228,17 @@ EngSquareMask engGetTargets(struct EngGame *game, EngSquare from) {
         result |= ((SquareMask)1 << to);
     }
     
-    releaseMoveList(legalMoves);
+    releaseMoveList(filteredByFrom);
     releaseMoveList(requiredMoves);
-    freeAnalysisData(&analysisData);
     return result;
 }
 
 EngGame *engMakeMove(const EngMove *engMove) {
     const EngMoveWrapper *wrapper = (const EngMoveWrapper *)engMove;
-    const GameState *gameState = wrapper->game->gameState;
-    AnalysisData analysisData = createAnalysisData(gameState);
-    Move move = analysisData.activePlayerMoves->moves[wrapper->index];
-    wrapper->game->gameState = makeMove(gameState, move);
+    GameState *gameState = wrapper->game->gameState;
+    const MoveList *activePlayerMoves = getActivePlayerMoves(gameState);
+    Move move = activePlayerMoves->moves[wrapper->index];
+    gameState = makeMove(gameState, move);
     return wrapper->game;
 }
 

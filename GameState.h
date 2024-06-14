@@ -33,18 +33,26 @@ typedef struct GameState {
     Position position;
     int halfMoveClock;
     int moveNumber;
+    MoveList *activePlayerMoves;
+    MoveList *passivePlayerMoves;
 } GameState;
 
 GameState *acquireGameState(void);
 
-GameState *duplicateGameState(const GameState *gameState);
+const MoveList *getActivePlayerMoves(GameState *gameState);
 
-const GameState *makeMove(const GameState *initialState, Move move);
+const MoveList *getPassivePlayerMoves(GameState *gameState);
+
+GameState *makeMove(const GameState *initialState, Move move);
 
 void releaseGameState(const GameState *gameState);
 
 const GameState *retractMove(const GameState *gameState);
 
 void calculateHash(Position *position);
+
+bool isActivePlayerInCheck(GameState *);
+
+bool isPassivePlayerInCheck(GameState *);
 
 #endif /* EngPosition_h */

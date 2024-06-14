@@ -103,7 +103,13 @@ typedef struct {
     EngMoveCounter moveNumber;
 } EngPosition;
 
-struct EngGame;
+struct GameState;
+
+typedef struct EngGame {
+    struct GameState *gameState;
+} EngGame;
+
+
 
 /*=================================================
  *  Position setup and access
@@ -118,7 +124,7 @@ EngPosition *engGetCurrentPosition(const struct EngGame *game);
 
 void engFreeGame(const struct EngGame *game);
 
-bool engIsCheck(const struct EngGame *game);
+bool engIsCheck(struct EngGame *game);
 
 /*=================================================
  *  Move and move list management

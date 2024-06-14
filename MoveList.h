@@ -10,7 +10,6 @@
 
 #include "Move.h"
 #include "EngCommon.h"
-#include "GameState.h"
 
 typedef struct MoveList {
     struct MoveList *next;
@@ -30,7 +29,7 @@ bool containsTargets(const MoveList *moveList, SquareMask targets);
 
 MoveList *duplicateMoveList(const MoveList *moveList);
 
-MoveList *filterMoveList(MoveList *moveList, bool (*filterFunc)(Move, const void *), const void *filterData);
+MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, const void *), const void *filterData);
 
 
 #endif /* MoveList_h */
