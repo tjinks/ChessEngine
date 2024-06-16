@@ -32,6 +32,7 @@ static Move createMove(int target, Piece piece, double score) {
 
 - (void)testAddMove {
     MoveList *moveList = acquireMoveList();
+    moveList->capacity = 16;
     MoveList *result = moveList;
     Move move;
     for (int i = 0; i < 16; i++) {

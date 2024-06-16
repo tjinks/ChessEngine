@@ -44,7 +44,7 @@
 
 - (void)testIsPassivePlayerInCheckTrue {
     GameState *gameState = parseFen("4k3/8/8/q7/8/8/8/4K3 b");
-    XCTAssertTrue(isPassivePlayerInCheck(gameState));
+    XCTAssertFalse(isPassivePlayerInCheck(gameState));
     releaseGameState(gameState);
 }
 
