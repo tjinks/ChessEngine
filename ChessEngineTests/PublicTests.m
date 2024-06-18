@@ -28,7 +28,8 @@ const char *fen = "4k3/1P6/8/8/8/8/6q1/R3K3 w Q - 100 0";
 }
 
 - (void)testStartGame {
-    EngPosition *position = engParseFen(fen, NULL);
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    EngPosition *position = parseFenResult.position;
     struct EngGame *game = engStartGame(position);
     EngPosition *result = engGetCurrentPosition(game);
     XCTAssertTrue(result->whiteCanCastleLong);
@@ -66,7 +67,8 @@ const char *fen = "4k3/1P6/8/8/8/8/6q1/R3K3 w Q - 100 0";
 }
 
 - (void)testEngGetTargets {
-    EngPosition *position = engParseFen(fen, NULL);
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    EngPosition *position = parseFenResult.position;
     struct EngGame *game = engStartGame(position);
     SquareMask result = engGetTargets(game, e1);
     for (int i = 0; i < 64; i++) {

@@ -23,13 +23,19 @@ static const char *InvalidCastlingRights = "Invalid castling rights '(%s)'";
 static const char *InvalidHalfMoveClock = "Invalid half move clock '(%s)'";
 static const char *InvalidMoveNumber = "Invalid move number '(%s)'";
 
+static const int MaxErrorMessageSize = 255;
+
 typedef struct {
-    void (*errorCallback)(const char *message);
     EngPosition *result;
-    char errorMessage[256];
+    char errorMessage[MaxErrorMessageSize + 1];
 } FenParsingContext;
 
 typedef const char *StringPtr;
+
+static const char *copyErrorMessage(const FenParsingContext *ctx) {
+    char *result = getMem(strlen(ctx->errorMessage) + 1);
+    return strcpy(result, ctx->errorMessage);
+}
 
 static const char *nextToken(StringPtr *s) {
     while (**s && isspace(**s)) {
@@ -92,7 +98,7 @@ static bool parseBoard(FenParsingContext *ctx, const char *encoding) {
         char c = encoding[index++];
         if (c == '\0') {
             if (rank > 0) {
-                ctx->errorCallback(TooFewRanks);
+                strcpy(ctx->errorMessage, TooFewRanks);
                 return false;
             }
             
@@ -100,7 +106,7 @@ static bool parseBoard(FenParsingContext *ctx, const char *encoding) {
         } else if (c == '/') {
             rank--;
             if (rank < 0) {
-                ctx->errorCallback(TooManyRanks);
+                strcpy(ctx->errorMessage, TooManyRanks);
                 return false;
             }
             
@@ -108,19 +114,18 @@ static bool parseBoard(FenParsingContext *ctx, const char *encoding) {
         } else if (isdigit(c)) {
             file += c - '0';
             if (file > 8) {
-                ctx->errorCallback(TooManyFiles);
+                strcpy(ctx->errorMessage, TooManyFiles);
                 return false;
             }
         } else {
             EngPiece piece = fenCharToPiece(c);
             if (piece == NoPiece) {
                 sprintf(ctx->errorMessage, InvalidPiece, c);
-                ctx->errorCallback(ctx->errorMessage);
                 return false;
             }
             
             if (file >= 8) {
-                ctx->errorCallback(TooManyFiles);
+                strcpy(ctx->errorMessage, TooManyFiles);
                 return false;
             }
             
@@ -152,7 +157,6 @@ static bool parsePlayerToMove(FenParsingContext *ctx, const char *encoding) {
     
 errorExit:
     sprintf(ctx->errorMessage, InvalidPlayer, encoding);
-    ctx->errorCallback(ctx->errorMessage);
     return false;
 }
 
@@ -245,7 +249,6 @@ static bool parseHalfMoveClock(FenParsingContext *ctx, const char *encoding) {
         halfMoveClock = parseNumber(encoding);
         if (halfMoveClock < 0 || halfMoveClock > 100) {
             sprintf(ctx->errorMessage, InvalidHalfMoveClock, encoding);
-            ctx->errorCallback(ctx->errorMessage);
             return false;
         }
     }
@@ -260,7 +263,6 @@ static bool parseMoveNumber(FenParsingContext *ctx, const char *encoding) {
         moveNumber = parseNumber(encoding);
         if (moveNumber < 0) {
             sprintf(ctx->errorMessage, InvalidMoveNumber, encoding);
-            ctx->errorCallback(ctx->errorMessage);
             return false;
         }
     }
@@ -269,18 +271,10 @@ static bool parseMoveNumber(FenParsingContext *ctx, const char *encoding) {
     return true;
 }
 
-static void defaultErrorCallback(const char *message) {
-    fprintf(stderr, "%s\n", message);
-}
-
-EngPosition *engParseFen(const char *fen, void (*errorCallback)(const char *message)) {
-    if (!errorCallback) {
-        errorCallback = defaultErrorCallback;
-    }
-    
+EngParseFenResult engParseFen(const char *fen) {
     FenParsingContext ctx;
     ctx.result = engCreatePosition();
-    ctx.errorCallback = errorCallback;
+    ctx.errorMessage[0] = '\0';
     const char *boardEncoding = nextToken(&fen);
     const char *playerToMoveEncoding = nextToken(&fen);
     const char *castlingRightsEncoding = nextToken(&fen);
@@ -295,11 +289,14 @@ EngPosition *engParseFen(const char *fen, void (*errorCallback)(const char *mess
     success = success && parseHalfMoveClock(&ctx, halfMoveClockEncoding);
     success = success && parseMoveNumber(&ctx, moveNumberEncoding);
     
-    if (!success) {
+    EngParseFenResult result = {success};
+    if (success) {
+        result.position = ctx.result;
+    } else {
         engFreePosition(ctx.result);
-        return NULL;
+        result.errorMessage = copyErrorMessage(&ctx);
     }
     
-    return ctx.result;
+    return result;
 }
 

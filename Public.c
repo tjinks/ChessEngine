@@ -255,5 +255,7 @@ bool isWinForPassivePlayer(EngGameResult result);
 
 bool isDraw(EngGameResult result);
 
-
+void engFreeString(const char *s) {
+    freeMem(s);
+}
 

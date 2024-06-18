@@ -24,7 +24,8 @@
 
 - (void)testValidFenNoEmptyFields {
     const char *fen = "r3k2r/8/8/8/P7/8/8/R3K2R w KQkq a3 25 10";
-    EngPosition *result = engParseFen(fen, NULL);
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    EngPosition *result = parseFenResult.position;
     XCTAssertTrue(result != NULL);
     if (result == NULL) {
         return;
@@ -73,7 +74,8 @@
 
 - (void)testValidNoCastlingAllowedNoEpSquare {
     const char *fen = "r3k2r/8/8/8/P7/8/8/R3K2R w - - 25 10";
-    EngPosition *result = engParseFen(fen, NULL);
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    EngPosition *result = parseFenResult.position;
     XCTAssertTrue(result != NULL);
     if (result == NULL) {
         return;
