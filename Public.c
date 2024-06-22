@@ -11,6 +11,7 @@
 #include "EngCommon.h"
 #include "BoardGeometry.h"
 #include "GameState.h"
+#include "Piece.h"
 
 const EngSquare EngNoSquare = NoSquare;
 
@@ -247,6 +248,13 @@ bool engIsCastles(const EngMove *engMove) {
 }
 
 /*=================================================
+ *  Analysis
+ =================================================*/
+EngGameResult engGetResult(const struct EngGame *game) {
+    return NoResult;
+}
+
+/*=================================================
  *  Miscellaneous functions
  =================================================*/
 bool isWinForActivePlayer(EngGameResult result);
@@ -258,4 +266,18 @@ bool isDraw(EngGameResult result);
 void engFreeString(const char *s) {
     freeMem(s);
 }
+
+Piece engMakePiece(Player owner, PieceType type) {
+    return makePiece(owner, type);
+}
+
+EngPieceType engGetPieceType(EngPiece piece) {
+    return getPieceType(piece);
+}
+
+EngPlayer engGetOwner(EngPiece piece) {
+    return getOwner(piece);
+}
+
+
 

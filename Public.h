@@ -59,17 +59,6 @@ typedef enum {
 typedef int EngSquare;
 typedef int EngMoveCounter;
 
-/*
-typedef struct {
-    EngPlayer playerToMove;
-    EngSquare epSquare;
-    bool whiteCanCastleShort, whiteCanCastleLong, blackCanCastleShort, blackCanCastleLong;
-    EngMoveCounter halfMoveClock;
-    EngMoveCounter moveNumber;
-    EngPiece board[64];
-} EngGameStateDto;
-*/
- 
 typedef struct {
     int positionsAnalysed;
     int ply;
@@ -148,6 +137,11 @@ struct EngGame *engMakeMove(const EngMove *move);
 bool engIsCastles(const EngMove *engMove);
 
 /*=================================================
+ *  Analysis
+ =================================================*/
+EngGameResult engGetResult(const struct EngGame *game);
+
+/*=================================================
  *  Chess notation support (see Notation.c)
  =================================================*/
 EngParseFenResult engParseFen(const char *fen);
@@ -162,6 +156,12 @@ bool isWinForPassivePlayer(const EngGameResult result);
 bool isDraw(EngGameResult result);
 
 void engFreeString(const char *s);
+
+EngPiece engMakePiece(EngPlayer owner, EngPieceType type);
+
+EngPieceType engGetPieceType(EngPiece piece);
+
+EngPlayer engGetOwner(EngPiece piece);
 
 
 

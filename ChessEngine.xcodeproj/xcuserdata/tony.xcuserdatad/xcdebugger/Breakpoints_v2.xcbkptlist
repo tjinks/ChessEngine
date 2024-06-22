@@ -842,8 +842,8 @@
             filePath = "Public.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "engGetTargets(game, from)"
             landmarkType = "9">
          </BreakpointContent>
@@ -858,8 +858,8 @@
             filePath = "Public.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "legalMoveFilter(move, filterData)"
             landmarkType = "9">
             <Locations>
