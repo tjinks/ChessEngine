@@ -132,13 +132,13 @@ GameState *acquireGameState(void) {
 
 const GameState *retractMove(const GameState *gs) {
     const GameState *result = gs->prev;
-    if (gs->activePlayerMoves) releaseMoveList(gs->activePlayerMoves);
-    if (gs->passivePlayerMoves) releaseMoveList(gs->passivePlayerMoves);
     releaseGameState(gs);
     return result;
 }
 
 void releaseGameState(const GameState *gs) {
+    if (gs->activePlayerMoves) releaseMoveList(gs->activePlayerMoves);
+    if (gs->passivePlayerMoves) releaseMoveList(gs->passivePlayerMoves);
     ((GameState *)gs)->prev = gsFreeList;
     gsFreeList = gs;
 }

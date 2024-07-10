@@ -16,12 +16,10 @@ typedef uint_least64_t EngSquareMask;
 typedef enum  {
     NoResult,
     WinByCheckMate,
-    WinByResignation,
     WinOnTime,
     DrawByStalemate,
     DrawByRepetition,
-    DrawBy50MoveRule,
-    DrawByAgreement
+    DrawBy50MoveRule
 } EngGameResult;
 
 typedef enum {
@@ -149,12 +147,6 @@ EngParseFenResult engParseFen(const char *fen);
 /*=================================================
  *  Miscellaneous functions
  =================================================*/
-bool isWinForActivePlayer(EngGameResult result);
-
-bool isWinForPassivePlayer(const EngGameResult result);
-
-bool isDraw(EngGameResult result);
-
 void engFreeString(const char *s);
 
 EngPiece engMakePiece(EngPlayer owner, EngPieceType type);
