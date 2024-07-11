@@ -88,4 +88,40 @@ const char *fen = "4k3/1P6/8/8/8/8/6q1/R3K3 w Q - 100 0";
     engFreePosition(position);
 }
 
+- (void)testEngGetResultNone {
+    const char *fen = "rnb1kb1r/ppppqppp/8/4n3/2P2B2/5N2/PP1NPPPP/R2QKB1R b KQkq - 100 0";
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    struct EngGame *game = engStartGame(parseFenResult.position);
+    
+    EngGameResult gameResult = engGetResult(game);
+    XCTAssertEqual(NoResult, gameResult);
+
+    engFreeGame(game);
+    engFreePosition(parseFenResult.position);
+}
+
+- (void)testEngGetResultCheckmate {
+    const char *fen = "rnb1kb1r/ppppqppp/8/8/2P2B2/3n1N2/PP1NPPPP/R2QKB1R w KQkq - 100 0";
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    struct EngGame *game = engStartGame(parseFenResult.position);
+    
+    EngGameResult gameResult = engGetResult(game);
+    XCTAssertEqual(WinByCheckmate, gameResult);
+
+    engFreeGame(game);
+    engFreePosition(parseFenResult.position);
+}
+
+- (void)testEngGetResultStalemate {
+    const char *fen = "8/8/8/3b4/6n1/8/6R1/5k1K w - - 100 0";
+    EngParseFenResult parseFenResult = engParseFen(fen);
+    struct EngGame *game = engStartGame(parseFenResult.position);
+    
+    EngGameResult gameResult = engGetResult(game);
+    XCTAssertEqual(DrawByStalemate, gameResult);
+
+    engFreeGame(game);
+    engFreePosition(parseFenResult.position);
+}
+
 @end

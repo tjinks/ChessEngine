@@ -15,7 +15,7 @@ typedef uint_least64_t EngSquareMask;
 
 typedef enum  {
     NoResult,
-    WinByCheckMate,
+    WinByCheckmate,
     WinOnTime,
     DrawByStalemate,
     DrawByRepetition,

@@ -12,6 +12,7 @@
 #include "BoardGeometry.h"
 #include "GameState.h"
 #include "Piece.h"
+#include "Analysis.h"
 
 const EngSquare EngNoSquare = NoSquare;
 
@@ -146,25 +147,6 @@ struct FromAndTo {
     int from, to;
 };
 
-static EngGameResult mateCheck(GameState *gameState) {
-    const MoveList *moveList = getActivePlayerMoves(gameState);
-    for (int i = 0; i < moveList->size; i++) {
-        GameState *stateAfterMove = makeMove(gameState, moveList->moves[i]);
-        bool inCheck = isPassivePlayerInCheck(stateAfterMove);
-        freeMem(stateAfterMove);
-        if (!inCheck) {
-            return NoResult;
-            
-        }
-    }
-    
-    if (isActivePlayerInCheck(gameState)) {
-        return WinByCheckMate;
-    } else {
-        return DrawByStalemate;
-    }
-}
-
 static bool fromAndToFilter(Move move, const void *filterData) {
     const struct FromAndTo *fromAndTo = filterData;
     return move.atoms[0].square == fromAndTo->from && move.atoms[1].square == fromAndTo->to;
@@ -274,18 +256,15 @@ EngGameResult engGetResult(const struct EngGame *game) {
     if (gameState->halfMoveClock == 0) {
         return DrawBy50MoveRule;
     }
-    
 
-    
-    EngGameResult result = NoResult;
-    const MoveList *moveList = getActivePlayerMoves(gameState);
-    for (int i = 0; i < moveList->size; i++) {
-        GameState *stateAfterMove = makeMove(gameState, moveList->moves[i]);
-        if (!isPassivePlayerInCheck(stateAfterMove)) {
-            
-        }
+    switch (mateCheck(gameState)) {
+        case NotMate:
+            return NoResult;
+        case Checkmate:
+            return WinByCheckmate;
+        case Stalemate:
+            return DrawByStalemate;
     }
-    return NoResult;
 }
 
 /*=================================================
