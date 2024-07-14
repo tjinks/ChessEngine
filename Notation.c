@@ -147,7 +147,7 @@ static bool parsePlayerToMove(FenParsingContext *ctx, const char *encoding) {
             break;
         case 'B':
         case 'b':
-            ctx->result->playerToMove = White;
+            ctx->result->playerToMove = Black;
             break;
         default:
             goto errorExit;

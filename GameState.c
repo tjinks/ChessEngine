@@ -15,10 +15,11 @@
 
 static const GameState *gsFreeList = NULL;
 
-static const int HashFactor = 255 * 2;
+static const int HashFactor = 0xFFE;
 
 static void updatePosition(GameState *gameState, Move move) {
     Position *position = &gameState->position;
+    CastlingFlags initialCastlingFlags = position->castlingFlags;
     int hash = position->hash;
     bool restartClock = false;
     for (int i = 0; i < move.atomCount; i++) {
@@ -71,8 +72,9 @@ static void updatePosition(GameState *gameState, Move move) {
             }
         }
     }
-    
-    position->hash ^= 1;
+
+    gameState->isRepetitionBarrier = restartClock || (initialCastlingFlags != position->castlingFlags);
+    position->hash = hash ^= 1;
     position->playerToMove ^= (White ^ Black);
     position->epSquare = move.epSquare;
     gameState->halfMoveClock = restartClock ? 100 : gameState->halfMoveClock - 1;
@@ -186,5 +188,18 @@ const MoveList *getPassivePlayerMoves(GameState *gameState) {
     return gameState->passivePlayerMoves;
 }
 
+bool isSamePosition(GameState *gs1, GameState *gs2) {
+    const Position *p1 = &gs1->position;
+    const Position *p2 = &gs2->position;
+    if (p1->playerToMove != p2->playerToMove) return false;
+    if (p1->castlingFlags != p2->castlingFlags) return false;
+    for (int i = 0; i < 64; i++) {
+        if (p1->board[i] != p2->board[i]) return false;
+    }
+    
+    const MoveList *ml1 = getActivePlayerMoves(gs1);
+    const MoveList *ml2 = getActivePlayerMoves(gs2);
+    return ml1->size == ml2->size;
+}
 
 

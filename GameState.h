@@ -33,6 +33,7 @@ typedef struct GameState {
     Position position;
     int halfMoveClock;
     int moveNumber;
+    bool isRepetitionBarrier;
     MoveList *activePlayerMoves;
     MoveList *passivePlayerMoves;
 } GameState;
@@ -54,5 +55,7 @@ void calculateHash(Position *position);
 bool isActivePlayerInCheck(GameState *);
 
 bool isPassivePlayerInCheck(GameState *);
+
+bool isSamePosition(GameState *gs1, GameState *gs2);
 
 #endif /* EngPosition_h */
