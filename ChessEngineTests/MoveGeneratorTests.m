@@ -55,6 +55,19 @@ static int countFrom(const MoveList *moveList, int from) {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
+- (void)testInitialPositionMoves {
+    EngPosition *position = engCreatePosition();
+    EngGame *game = engStartGame(position);
+    engFreePosition(position);
+    MoveGenerator generator;
+    initMoveGenerator(&generator, &game->gameState->position, White);
+    addNonCastlingMoves(&generator);
+    MoveList *moveList = generator.moveList;
+    XCTAssertEqual(20, moveList->size);
+    releaseMoveList(moveList);
+    engFreeGame(game);
+}
+
 - (void)testKingMoves {
     static const char *fen = "k7/3K4/2pP4/8/8/8/8/8 w";
     GameState *gameState = parseFen(fen);
@@ -167,7 +180,7 @@ static int countFrom(const MoveList *moveList, int from) {
 }
 
 - (void)testWhitePawnMoves {
-    static const char *fen = "4k3/1P6/8/5pP1/2n1b3/3P4/5P2/4K3 w - f6";
+    static const char *fen = "4k3/1P6/8/5pP1/2n1b3/3P3P/P4P2/4K3 w - f6";
     GameState *gameState = parseFen(fen);
     XCTAssertTrue(gameState != NULL);
     if (gameState) {
@@ -179,7 +192,9 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertEqual(3, countFrom(moveList, d3));
         XCTAssertEqual(2, countFrom(moveList, f2));
         XCTAssertEqual(2, countFrom(moveList, g5));
-        
+        XCTAssertEqual(2, countFrom(moveList, a2));
+        XCTAssertEqual(1, countFrom(moveList, h3));
+
         XCTAssertTrue(findPromotionMove(moveList, b7, b8, Queen));
         XCTAssertTrue(findPromotionMove(moveList, b7, b8, Rook));
         XCTAssertTrue(findPromotionMove(moveList, b7, b8, Knight));

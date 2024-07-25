@@ -62,7 +62,7 @@ void engFreePosition(const EngPosition *position) {
 }
 
 struct EngGame *engStartGame(const EngPosition *engPosition) {
-    GameState *gameState = getMem(sizeof(GameState));
+    GameState *gameState = acquireGameState();
     Position *position = &gameState->position;
     memcpy(position->board, engPosition->board, 64 * sizeof(Piece));
     position->epSquare = engPosition->epSquare;
@@ -107,8 +107,18 @@ EngPosition *engGetCurrentPosition(const struct EngGame *game) {
     return &result->position;
 }
 
+struct EngGame *clone(const struct EngGame *game) {
+    GameState *gsCopy = acquireGameState();
+    *gsCopy = *game->gameState;
+    gsCopy->prev = NULL;
+    EngGame *result = getMem(sizeof(EngGame));
+    result->gameState = gsCopy;
+    return result;
+}
+
+
 void engFreeGame(const struct EngGame *game) {
-    freeMem(game->gameState);
+    releaseGameState(game->gameState);
     freeMem(game);
 }
 
@@ -130,15 +140,15 @@ bool engIsCheck(struct EngGame *game) {
 /*=================================================
  *  Move and move list management
  =================================================*/
-static bool legalMoveFilter(Move move, const void *filterData) {
-    const GameState *gameState = filterData;
+static bool legalMoveFilter(Move move, void *filterData) {
+    GameState *gameState = filterData;
     GameState *newState = makeMove(gameState, move);
     bool result = !isPassivePlayerInCheck(newState);
     retractMove(newState);
     return result;
 }
 
-static bool fromFilter(Move move, const void *filterData) {
+static bool fromFilter(Move move, void *filterData) {
     int from = *((int *)filterData);
     return move.atoms[0].square == from;
 }
@@ -147,7 +157,7 @@ struct FromAndTo {
     int from, to;
 };
 
-static bool fromAndToFilter(Move move, const void *filterData) {
+static bool fromAndToFilter(Move move, void *filterData) {
     const struct FromAndTo *fromAndTo = filterData;
     return move.atoms[0].square == fromAndTo->from && move.atoms[1].square == fromAndTo->to;
 }

@@ -29,7 +29,7 @@ typedef struct {
 } Position;
 
 typedef struct GameState {
-    const struct GameState *prev;
+    struct GameState *prev;
     Position position;
     int halfMoveClock;
     int moveNumber;
@@ -44,11 +44,11 @@ const MoveList *getActivePlayerMoves(GameState *gameState);
 
 const MoveList *getPassivePlayerMoves(GameState *gameState);
 
-GameState *makeMove(const GameState *initialState, Move move);
+GameState *makeMove(GameState *initialState, Move move);
 
-void releaseGameState(const GameState *gameState);
+void releaseGameState(GameState *gameState);
 
-const GameState *retractMove(const GameState *gameState);
+GameState *retractMove(GameState *gameState);
 
 void calculateHash(Position *position);
 
@@ -57,5 +57,7 @@ bool isActivePlayerInCheck(GameState *);
 bool isPassivePlayerInCheck(GameState *);
 
 bool isSamePosition(GameState *gs1, GameState *gs2);
+
+bool isThreefoldRepetition(GameState *gameState);
 
 #endif /* EngPosition_h */

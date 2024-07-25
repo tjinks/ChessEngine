@@ -13,7 +13,7 @@
 #include "BoardGeometry.h"
 #include "MoveGenerator.h"
 
-static const GameState *gsFreeList = NULL;
+static GameState *gsFreeList = NULL;
 
 static const int HashFactor = 0xFFE;
 
@@ -118,6 +118,33 @@ bool isPassivePlayerInCheck(GameState *gameState) {
     return isInCheck(gameState, false);
 }
 
+bool isThreefoldRepetition(GameState *gameState) {
+    int count = 1;
+    int hash = gameState->position.hash;
+    GameState *previousState = gameState->prev;
+    while (true) {
+        if (!previousState) {
+            return false;
+        }
+        
+        if (previousState->position.hash == hash) {
+            if (isSamePosition(gameState, previousState)) {
+                if (++count == 3) {
+                    return true;
+                }
+            }
+        }
+        
+        if (previousState->isRepetitionBarrier) {
+            return false;
+        }
+        
+        previousState = previousState->prev;
+    }
+    
+    return  false;
+}
+
 GameState *acquireGameState(void) {
     GameState *result;
     if (gsFreeList) {
@@ -127,25 +154,26 @@ GameState *acquireGameState(void) {
         result = getMem(sizeof(GameState));
     }
 
+    result->prev = NULL;
     result->activePlayerMoves = NULL;
     result->passivePlayerMoves = NULL;
     return result;
 }
 
-const GameState *retractMove(const GameState *gs) {
-    const GameState *result = gs->prev;
+GameState *retractMove(GameState *gs) {
+    GameState *result = gs->prev;
     releaseGameState(gs);
     return result;
 }
 
-void releaseGameState(const GameState *gs) {
+void releaseGameState(GameState *gs) {
     if (gs->activePlayerMoves) releaseMoveList(gs->activePlayerMoves);
     if (gs->passivePlayerMoves) releaseMoveList(gs->passivePlayerMoves);
-    ((GameState *)gs)->prev = gsFreeList;
+    gs->prev = gsFreeList;
     gsFreeList = gs;
 }
 
-GameState *makeMove(const GameState *initialState, Move move) {
+GameState *makeMove(GameState *initialState, Move move) {
     GameState *result = acquireGameState();
     result->position = initialState->position;
     result->halfMoveClock = initialState->halfMoveClock;

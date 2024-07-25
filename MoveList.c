@@ -93,7 +93,7 @@ MoveList *duplicateMoveList(const MoveList *moveList) {
     return result;
 }
 
-MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, const void *), const void *filterData) {
+MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, void *), void *filterData) {
     MoveList *result = acquireMoveList();
     for (int i = 0; i < moveList->size; i++) {
         if (filterFunc(moveList->moves[i], filterData)) {

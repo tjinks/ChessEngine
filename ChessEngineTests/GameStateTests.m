@@ -210,6 +210,42 @@ static const char *moveTestsFen = "r2q1rk1/pPp3pp/4p3/4Pp2/5P2/8/PPP3PP/RN1QK2R 
     releaseGameState(initial);
 }
 
+- (void)testIsThreeFoldRepetition {
+    GameState *gameState = parseFen("7k/8/6KP/8/8/8/8/8 w");
+    Move wm1 = {2, 64, NoPiece, 0, { {46, NoPiece}, {39, WhiteKing} } };
+    Move bm1 = {2, 64, NoPiece, 0, { {63, NoPiece}, {62, BlackKing} } };
+    Move wm2 = {2, 64, NoPiece, 0, { {39, NoPiece}, {46, WhiteKing} } };
+    Move bm2 = {2, 64, NoPiece, 0, { {62, NoPiece}, {63, BlackKing} } };
+    
+    gameState = makeMove(gameState, wm1);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, bm1);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, wm2);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, bm2);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, wm1);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, bm1);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, wm2);
+    XCTAssertFalse(isThreefoldRepetition(gameState));
+
+    gameState = makeMove(gameState, bm2);
+    XCTAssertTrue(isThreefoldRepetition(gameState));
+    
+    while (gameState) {
+        gameState = retractMove(gameState);
+    }
+}
+
 - (void)testIsActivePlayerInCheckFalse {
     GameState *gameState = parseFen("4k3/8/8/8/8/3q4/3P4/R3K2R w");
     XCTAssertFalse(isActivePlayerInCheck(gameState));
@@ -230,7 +266,7 @@ static const char *moveTestsFen = "r2q1rk1/pPp3pp/4p3/4Pp2/5P2/8/PPP3PP/RN1QK2R 
 
 - (void)testIsPassivePlayerInCheckTrue {
     GameState *gameState = parseFen("4k3/8/8/q7/8/8/8/4K3 b");
-    XCTAssertFalse(isPassivePlayerInCheck(gameState));
+    XCTAssertTrue(isPassivePlayerInCheck(gameState));
     releaseGameState(gameState);
 }
 
@@ -288,5 +324,6 @@ static const char *moveTestsFen = "r2q1rk1/pPp3pp/4p3/4Pp2/5P2/8/PPP3PP/RN1QK2R 
     XCTAssertTrue(isSamePosition(gs2, gs2));
     XCTAssertFalse(isSamePosition(gs1, gs2));
 }
+
 
 @end

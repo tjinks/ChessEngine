@@ -29,7 +29,7 @@ bool containsTargets(const MoveList *moveList, SquareMask targets);
 
 MoveList *duplicateMoveList(const MoveList *moveList);
 
-MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, const void *), const void *filterData);
+MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, void *), void *filterData);
 
 
 #endif /* MoveList_h */

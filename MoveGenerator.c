@@ -148,9 +148,11 @@ static void addSinglePawnMove(MoveGenerator *generator, int from, int to) {
 
 static void tryAddPawnCapture(MoveGenerator *generator, int from, Direction direction) {
     int to = direction(from);
-    const Position *position = generator->position;
-    if (to == position->epSquare || getOwner(position->board[to]) == getOpponent(generator->player)) {
-        addSimpleMove(generator, from, to);
+    if (to != NoSquare) {
+        const Position *position = generator->position;
+        if (to == position->epSquare || getOwner(position->board[to]) == getOpponent(generator->player)) {
+            addSimpleMove(generator, from, to);
+        }
     }
 }
 
@@ -173,7 +175,6 @@ static void addPawnMoves(MoveGenerator *generator, int from) {
     }
     
     // Now look for captures
-    to = generator->pawnCaptureDirections[0](from);
     tryAddPawnCapture(generator, from, generator->pawnCaptureDirections[0]);
     tryAddPawnCapture(generator, from, generator->pawnCaptureDirections[1]);
 }

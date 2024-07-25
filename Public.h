@@ -115,6 +115,8 @@ void engFreePosition(const EngPosition *position);
 
 struct EngGame *engStartGame(const EngPosition *position);
 
+struct EngGame *clone(const struct EngGame *game);
+
 EngPosition *engGetCurrentPosition(const struct EngGame *game);
 
 void engFreeGame(const struct EngGame *game);
