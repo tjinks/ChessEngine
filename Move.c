@@ -7,4 +7,4 @@
 
 #include "Move.h"
 
-
+extern int hashMove(Move);

@@ -18,4 +18,6 @@ void *getMem(size_t required);
 
 void freeMem(const void *p);
 
+void fatalError(const char *message);
+
 #endif /* EngCommon_h */

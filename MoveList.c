@@ -105,4 +105,3 @@ MoveList *filterMoveList(const MoveList *moveList, bool (*filterFunc)(Move, void
 }
 
 
-

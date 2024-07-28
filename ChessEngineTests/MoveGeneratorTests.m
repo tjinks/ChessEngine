@@ -96,6 +96,7 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, a8, a7));
         
         releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -129,6 +130,7 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, b6, a4));
         
         releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -152,6 +154,7 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, d5, a2));
         
         releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -176,6 +179,7 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, c3, a3));
         
         releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -211,6 +215,7 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, g5, g6));
         
         releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -245,6 +250,102 @@ static int countFrom(const MoveList *moveList, int from) {
         XCTAssertTrue(findMoveByFromAndto(moveList, g4, g3));
 
         releaseMoveList(moveList);
+        releaseGameState(gameState);
+    }
+}
+
+-(void)testEpSquare {
+    static const char *fen = "4k3/1p6/8/2P5/8/8/8/4K3 b";
+    GameState *gameState = parseFen(fen);
+    XCTAssertTrue(gameState != NULL);
+    if (gameState) {
+        MoveGenerator generator;
+        initMoveGenerator(&generator, &gameState->position, Black);
+        addNonCastlingMoves(&generator);
+        MoveList *moveList = generator.moveList;
+        Move move = {0};
+        for (int i = 0; i < moveList->size; i++) {
+            Move tmp = moveList->moves[i];
+            if (tmp.atomCount == 2 && tmp.atoms[0].square == b7 && tmp.atoms[1].square == b5) {
+                move = tmp;
+                break;
+            }
+        }
+
+        XCTAssertEqual(2, move.atomCount);
+        if (move.atomCount != 2) {
+            return;
+        }
+        
+        XCTAssertEqual(b6, move.epSquare);
+        releaseMoveList(moveList);
+        releaseGameState(gameState);
+    }
+}
+
+-(void)testWhiteEpCapture {
+    static const char *fen = "4k3/8/8/1pP5/8/8/8/4K3 w - b6";
+    GameState *gameState = parseFen(fen);
+    XCTAssertTrue(gameState != NULL);
+    if (gameState) {
+        MoveGenerator generator;
+        initMoveGenerator(&generator, &gameState->position, White);
+        addNonCastlingMoves(&generator);
+        MoveList *moveList = generator.moveList;
+        Move move = {0};
+        for (int i = 0; i < moveList->size; i++) {
+            Move tmp = moveList->moves[i];
+            if (tmp.atoms[0].square == c5 && tmp.atoms[1].square == b6) {
+                move = tmp;
+                break;
+            }
+        }
+
+        XCTAssertEqual(3, move.atomCount);
+        if (move.atomCount != 3) {
+            return;
+        }
+        
+        XCTAssertEqual(NoPiece, move.atoms[0].newContents);
+        XCTAssertEqual(WhitePawn, move.atoms[1].newContents);
+        XCTAssertEqual(NoPiece, move.atoms[2].newContents);
+        XCTAssertEqual(b5, move.atoms[2].square);
+        
+        releaseMoveList(moveList);
+        releaseGameState(gameState);
+    }
+}
+
+-(void)testBlackEpCapture {
+    static const char *fen = "4k3/8/8/8/1pP5/8/8/4K3 b - c3";
+    GameState *gameState = parseFen(fen);
+    XCTAssertTrue(gameState != NULL);
+    if (gameState) {
+        MoveGenerator generator;
+        initMoveGenerator(&generator, &gameState->position, Black);
+        addNonCastlingMoves(&generator);
+        MoveList *moveList = generator.moveList;
+        Move move = {0};
+        for (int i = 0; i < moveList->size; i++) {
+            Move tmp = moveList->moves[i];
+            if (tmp.atoms[0].square == b4 && tmp.atoms[1].square == c3) {
+                move = tmp;
+                break;
+            }
+        }
+
+        XCTAssertEqual(3, move.atomCount);
+        if (move.atomCount != 3) {
+            return;
+        }
+        
+        XCTAssertEqual(NoPiece, move.atoms[0].newContents);
+        XCTAssertEqual(BlackPawn, move.atoms[1].newContents);
+        XCTAssertEqual(NoPiece, move.atoms[2].newContents);
+        XCTAssertEqual(c4, move.atoms[2].square);
+        
+        releaseMoveList(moveList);
+        releaseGameState(gameState);
     }
 }
 
@@ -267,6 +368,7 @@ static void runCastlingTest(const char *fen, Player player, MoveListChecker chec
         checker(moveList);
         releaseMoveList(moveList);
         releaseMoveList(opponentGenerator.moveList);
+        releaseGameState(gameState);
     }
 }
 

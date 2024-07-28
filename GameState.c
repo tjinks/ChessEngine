@@ -141,8 +141,6 @@ bool isThreefoldRepetition(GameState *gameState) {
         
         previousState = previousState->prev;
     }
-    
-    return  false;
 }
 
 GameState *acquireGameState(void) {

@@ -23,7 +23,7 @@ typedef struct {
 
 typedef struct {
     EngMove move;
-    int index;
+    int hash;
     EngGame *game;
 } EngMoveWrapper;
 
@@ -188,7 +188,7 @@ static EngMoveWrapper *createEngMoveWrapper(EngGame *game, Move move, int index)
     
     engMove->promoteTo = move.promoteTo;
     
-    result->index = index;
+    result->hash = hashMove(move);
     result->game = game;
     return result;
 }
@@ -249,9 +249,20 @@ EngGame *engMakeMove(const EngMove *engMove) {
     const EngMoveWrapper *wrapper = (const EngMoveWrapper *)engMove;
     GameState *gameState = wrapper->game->gameState;
     const MoveList *activePlayerMoves = getActivePlayerMoves(gameState);
-    Move move = activePlayerMoves->moves[wrapper->index];
-    gameState = makeMove(gameState, move);
-    return wrapper->game;
+    for (int i = 0; i < activePlayerMoves->size; i++) {
+        if (wrapper->hash == hashMove(activePlayerMoves->moves[i])) {
+            wrapper->game->gameState = makeMove(gameState, activePlayerMoves->moves[i]);
+            return wrapper->game;
+        }
+    }
+    
+    fatalError("Move not found in current position's active move list");
+    return NULL;
+}
+
+struct EngGame *engRetractMove(struct EngGame *game) {
+    game->gameState = retractMove(game->gameState);
+    return game;
 }
 
 bool engIsCastles(const EngMove *engMove) {

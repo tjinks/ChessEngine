@@ -134,6 +134,8 @@ EngSquareMask engGetTargets(struct EngGame *game, EngSquare from);
 
 struct EngGame *engMakeMove(const EngMove *move);
 
+struct EngGame *engRetractMove(struct EngGame *game);
+
 bool engIsCastles(const EngMove *engMove);
 
 /*=================================================

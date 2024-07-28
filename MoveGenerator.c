@@ -139,18 +139,28 @@ static void addSinglePawnMove(MoveGenerator *generator, int from, int to) {
     int r = rank(from);
     if (r == generator->seventhRank) {
         addPromotionMoves(generator, from, to);
-    } else if (abs(from - to) == 8) {
+    } else if (abs(from - to) == 16) {
         addDoublePawnMove(generator, from, to);
     } else {
         addSimpleMove(generator, from, to);
     }
 }
 
+static void addEpCapture(MoveGenerator *generator, int from, int to, int epSquare) {
+    Move move = createSimpleMove(generator->position, from, to);
+    move.atomCount++;
+    move.atoms[2].square = epSquare + (generator->player == White ? -8 : 8);
+    move.atoms[2].newContents = NoPiece;
+    addMove(generator->moveList, move);
+}
+
 static void tryAddPawnCapture(MoveGenerator *generator, int from, Direction direction) {
     int to = direction(from);
     if (to != NoSquare) {
         const Position *position = generator->position;
-        if (to == position->epSquare || getOwner(position->board[to]) == getOpponent(generator->player)) {
+        if (to == position->epSquare) {
+            addEpCapture(generator, from, to, position->epSquare);
+        } else if (getOwner(position->board[to]) == getOpponent(generator->player)) {
             addSimpleMove(generator, from, to);
         }
     }

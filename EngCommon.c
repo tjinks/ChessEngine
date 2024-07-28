@@ -11,15 +11,19 @@
 
 void *getMem(size_t required) {
     void *result = malloc(required);
-    if (result) {
-        return result;
+    if (result == NULL) {
+        fatalError("Out of memory!");
     }
-    
-    fprintf(stderr, "Out of memory!\n");
-    exit(1);
+
+    return  result;
 }
 
 void freeMem(const void *p) {
     free((void *)p);
+}
+
+void fatalError(const char *message) {
+    fprintf(stderr, "%s\n", message);
+    exit(1);
 }
 
